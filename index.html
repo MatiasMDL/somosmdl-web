@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0B0612">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<link rel="alternate" type="application/rss+xml" title="Blog de MDL" href="/blog/feed.xml">
+<meta property="og:image" content="https://somosmdl.com/img/og-mdl.png">
+<link rel="preload" href="/fonts/poppins-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<title>MDL Marketing Digital</title>
+<meta name="description" content="Agencia de marketing digital con más de 10 años. Campañas en Meta, Google y ChatGPT que terminan en consultas y ventas.">
+<link rel="canonical" href="https://somosmdl.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://somosmdl.com/">
+<meta property="og:title" content="MDL Marketing Digital · No hacemos ruido. Hacemos ventas.">
+<meta property="og:description" content="Más de 10 años llenando el WhatsApp de nuestros clientes con gente que quiere comprar.">
+<meta property="og:locale" content="es_AR">
+<script>try{var t=localStorage.getItem('mdl-tema');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<style>@font-face{font-family:Poppins;font-weight:400;font-display:swap;src:url(/fonts/poppins-latin-400-normal.woff2) format("woff2")}@font-face{font-family:Poppins;font-weight:500;font-display:swap;src:url(/fonts/poppins-latin-500-normal.woff2) format("woff2")}@font-face{font-family:Poppins;font-weight:600;font-display:swap;src:url(/fonts/poppins-latin-600-normal.woff2) format("woff2")}@font-face{font-family:Poppins;font-weight:700;font-display:swap;src:url(/fonts/poppins-latin-700-normal.woff2) format("woff2")}@font-face{font-family:Poppins;font-weight:800;font-display:swap;src:url(/fonts/poppins-latin-800-normal.woff2) format("woff2")}@font-face{font-family:Poppins;font-weight:900;font-display:swap;src:url(/fonts/poppins-latin-900-normal.woff2) format("woff2")}@font-face{font-family:"JetBrains Mono";font-weight:400;font-display:swap;src:url(/fonts/jetbrains-mono-latin-400-normal.woff2) format("woff2")}@font-face{font-family:"JetBrains Mono";font-weight:500;font-display:swap;src:url(/fonts/jetbrains-mono-latin-500-normal.woff2) format("woff2")}
+/* Layout: una película en escenas. Negro de sala, violeta MDL como luz, tipografía enorme que entra lento. Escenas fijas (sticky) que avanzan con el scroll. */
+:root{
+  --bg:#0B0612; --bg2:#120C1A; --line:#272030; --fg:#F4F1F8; --muted:#9C94A8; --dim:#3A3344;
+  --p:#6220AF; --lav:#C9A8FF; --paper:#F4F1F8; --ink:#0B0612;
+  --display:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --slow:cubic-bezier(.16,1,.3,1);
+  --gx:max(20px,env(safe-area-inset-left,0px)); --gy:max(20px,env(safe-area-inset-right,0px));
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--display);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+a{color:inherit}
+img,svg{max-width:100%}
+:focus-visible{outline:2px solid var(--lav);outline-offset:4px;border-radius:4px}
+h1,h2,h3,p{margin:0}
+h1,h2{text-wrap:balance}
+.wrap{max-width:1280px;margin:0 auto;padding-left:var(--gx);padding-right:var(--gy)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;gap:12px;font:600 15px/1 var(--display);text-decoration:none;padding:18px 26px;border-radius:999px;border:1.5px solid transparent;cursor:pointer;transition:background .6s var(--slow),color .6s var(--slow),border-color .6s var(--slow)}
+.btn .arr{transition:transform .8s var(--slow)}
+.btn:hover .arr{transform:translateX(6px)}
+.btn-p{background:var(--p);color:#fff}
+.btn-p:hover{background:var(--fg);color:var(--ink)}
+.btn-o{border-color:var(--dim);color:var(--fg)}
+.btn-o:hover{border-color:var(--fg)}
+
+/* grano de película */
+.grain{position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:70;opacity:.06;background-image:var(--noise);animation:grain 1.2s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
+
+/* header */
+header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;color:var(--fg);transition:background .8s var(--slow)}
+header.scrolled{background:rgba(11,6,18,.82);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+header .logo{transition:filter .6s var(--slow)}
+.hd{display:flex;align-items:center;justify-content:space-between;height:76px}
+.hd .logo{height:28px;display:block}
+.hd-r{display:flex;align-items:center;gap:22px}
+.menu-btn{background:none;border:0;color:inherit;font:500 13px var(--mono);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;padding:8px 0;display:flex;align-items:center;gap:10px}
+.menu-btn i{display:block;width:26px;height:1.5px;background:currentColor;box-shadow:0 6px 0 currentColor;margin-top:-6px}
+.hd .wa-link{font:500 13px var(--mono);letter-spacing:.12em;text-transform:uppercase;text-decoration:none}
+@media (max-width:600px){.hd .wa-link{display:none}}
+
+/* menú a pantalla completa */
+.nav{position:fixed;inset:0;z-index:55;background:var(--p);color:#fff;display:flex;flex-direction:column;justify-content:center;padding:calc(90px + env(safe-area-inset-top,0px)) var(--gy) calc(40px + env(safe-area-inset-bottom,0px)) var(--gx);clip-path:inset(0 0 100% 0);transition:clip-path 1.1s var(--slow);visibility:hidden}
+.nav.open{clip-path:inset(0 0 0 0);visibility:visible}
+.nav ul{list-style:none;margin:0 auto;padding:0;max-width:1280px;width:100%;display:grid;gap:4px}
+.nav li a{display:flex;align-items:baseline;gap:18px;text-decoration:none;font-weight:800;font-size:clamp(34px,7vw,84px);letter-spacing:-.045em;line-height:1.08}
+.nav li a small{font:400 12px var(--mono);letter-spacing:.14em;opacity:.7}
+.nav li a:hover{color:var(--ink)}
+.nav .close{position:absolute;top:calc(22px + env(safe-area-inset-top,0px));right:var(--gy);background:none;border:0;color:#fff;font:500 13px var(--mono);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;padding:8px}
+
+/* ESCENA 1 · apertura */
+.open-scene{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding-block:calc(110px + env(safe-area-inset-top,0px)) clamp(36px,6vh,64px);overflow:hidden}
+.chatter{position:absolute;inset:0;overflow:hidden;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 25%,#000 70%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 25%,#000 70%,transparent)}
+.chatter .col{position:absolute;top:0;display:flex;flex-direction:column;gap:14px;animation:drift 90s linear infinite}
+.chatter{opacity:.45}
+.chatter .col:nth-child(1){left:64%;width:min(280px,22vw)}
+.chatter .col:nth-child(2){left:84%;width:min(240px,18vw);animation-duration:120s;animation-delay:-40s}
+.chatter span{display:block;background:var(--bg2);border:1px solid var(--line);color:var(--muted);border-radius:16px 16px 16px 4px;padding:10px 14px;font-size:13px;line-height:1.4}
+.chatter span b{display:block;font:400 10px var(--mono);letter-spacing:.1em;color:var(--dim);margin-top:4px}
+@keyframes drift{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+@media (max-width:1000px){.chatter .col:nth-child(1){left:auto;right:-30%;width:60vw}.chatter .col:nth-child(2){display:none}.chatter{opacity:.22}.chatter .col:nth-child(1){right:-38%}.slate span+span{display:none}}
+.open-scene .wrap{position:relative;width:100%}
+.slate{display:flex;justify-content:space-between;gap:16px;color:var(--muted);margin-bottom:clamp(20px,4vh,40px)}
+.big{font-weight:800;font-size:clamp(52px,11.5vw,184px);line-height:.9;letter-spacing:-.055em}
+.big .ln{display:block;overflow:hidden;padding-bottom:.06em}
+.big .ln>span{display:inline-block;animation:rise 1.8s var(--slow) both}
+.big .ln:nth-child(2)>span{animation-delay:.35s}
+.big .ln:nth-child(3)>span{animation-delay:.7s}
+.big em{font-style:normal;color:var(--lav)}
+@keyframes rise{from{transform:translateY(105%)}to{transform:none}}
+.rule{height:1px;background:var(--line);margin-block:clamp(24px,4vh,40px);transform-origin:left;animation:draw 2.4s var(--slow) 1.1s both}
+@keyframes draw{from{transform:scaleX(0)}to{transform:none}}
+.open-foot{display:grid;grid-template-columns:1.2fr 1fr;gap:24px 48px;align-items:end;animation:fadeup 1.6s var(--slow) 1.5s both}
+@keyframes fadeup{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.open-foot p{font-size:clamp(17px,1.6vw,21px);color:var(--muted);max-width:44ch}
+.open-foot p b{color:var(--fg);font-weight:500}
+.open-foot .ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+@media (max-width:760px){.open-foot{grid-template-columns:1fr}.open-foot .ctas{justify-content:flex-start}}
+
+/* ESCENA 2 · los números (sticky, avanza con el scroll) */
+.numbers{height:340vh;position:relative}
+.numbers .stage{position:sticky;top:0;height:100svh;display:grid;place-items:center;overflow:hidden}
+.frame{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;opacity:var(--o,0);transform:scale(calc(1.06 - var(--o,0)*.06));transition:none}
+.frame:first-child{--o:1}
+.frame .count{font-weight:900;font-size:clamp(84px,24vw,360px);line-height:.85;letter-spacing:-.06em;font-variant-numeric:tabular-nums;color:var(--fg)}
+.frame .count small{font-size:.35em;color:var(--lav);letter-spacing:-.03em}
+.frame .cap{display:grid;grid-template-columns:auto 1fr;gap:12px 32px;margin-top:clamp(20px,3vh,36px);align-items:start}
+.frame .cap .mono{color:var(--lav);padding-top:6px}
+.frame .cap p{font-size:clamp(18px,2.2vw,30px);line-height:1.3;font-weight:500;max-width:28ch;letter-spacing:-.01em}
+@media (max-width:600px){.frame .cap{grid-template-columns:1fr}}
+.progress{position:absolute;left:var(--gx);right:var(--gy);bottom:calc(28px + env(safe-area-inset-bottom,0px));display:flex;gap:6px}
+.progress i{flex:1;height:2px;background:var(--dim);position:relative;overflow:hidden}
+.progress i::after{content:"";position:absolute;inset:0;background:var(--fg);transform-origin:left;transform:scaleX(var(--f,0))}
+
+/* ESCENA 3 · manifiesto (las palabras se encienden con el scroll) */
+.manifesto{padding-block:clamp(100px,18vh,200px)}
+.manifesto .mono{color:var(--lav);margin-bottom:32px;display:block}
+.manifesto p.say{font-weight:700;font-size:clamp(30px,5.2vw,76px);line-height:1.08;letter-spacing:-.04em;max-width:20ch}
+.say .w{color:var(--dim);transition:color 1.2s var(--slow)}
+.say .w.on{color:var(--fg)}
+.say .w.hi.on{color:var(--lav)}
+.sign{display:flex;align-items:center;gap:16px;margin-top:48px;color:var(--muted);font-size:14px}
+.sign b{color:var(--fg);font-weight:600;display:block}
+.sign .av{width:52px;height:52px;border-radius:50%;background:var(--p);display:grid;place-items:center;font-weight:800;font-size:18px;color:#fff;letter-spacing:-.04em}
+
+/* ESCENA 5 · servicios en travelling horizontal */
+.svc{height:var(--h,400vh);position:relative}
+.svc .stage{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:clamp(24px,5vh,56px)}
+.svc-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
+.svc-head h2{font-weight:800;font-size:clamp(38px,6vw,88px);line-height:.95;letter-spacing:-.05em}
+.svc-head .mono{color:var(--muted)}
+.track{display:flex;gap:clamp(14px,2vw,24px);padding-left:var(--gx);padding-right:var(--gy);transform:translateX(calc(var(--tx,0)*-1px));will-change:transform}
+.card{flex:none;width:clamp(270px,30vw,400px);aspect-ratio:4/5;max-width:100%;border:1px solid var(--line);border-radius:28px;padding:clamp(22px,2.4vw,32px);display:flex;flex-direction:column;justify-content:space-between;text-decoration:none;background:var(--bg);transition:background .8s var(--slow),border-color .8s var(--slow)}
+.card:hover{background:var(--bg2);border-color:var(--dim)}
+.card .top{display:flex;justify-content:space-between;color:var(--muted)}
+.card h3{font-weight:800;font-size:clamp(28px,2.8vw,40px);line-height:1;letter-spacing:-.04em}
+.card p{font-size:15px;color:var(--muted);margin-top:14px}
+.card .go{margin-top:24px;font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--lav)}
+.card.hot{background:var(--p);border-color:var(--p)}
+.card.hot .top,.card.hot p{color:#E7DAFA}
+.card.hot .go{color:#fff}
+
+/* ESCENA 6 · casos */
+.cases{padding-block:clamp(90px,14vh,160px)}
+.cases-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(40px,6vh,72px)}
+.cases-head h2{font-weight:800;font-size:clamp(38px,6vw,88px);line-height:.95;letter-spacing:-.05em;max-width:12ch}
+.cases-head p{color:var(--muted);max-width:40ch}
+.case{display:grid;grid-template-columns:1.1fr 1fr 1.2fr;gap:20px 40px;align-items:center;padding-block:clamp(28px,4vh,44px);border-top:1px solid var(--line)}
+.case h3{font-weight:800;font-size:clamp(28px,3.4vw,52px);letter-spacing:-.045em;line-height:1}
+.case h3 small{display:block;font:400 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+.case .n{font-weight:900;font-size:clamp(44px,5vw,80px);letter-spacing:-.05em;line-height:.9;color:var(--lav);font-variant-numeric:tabular-nums}
+.case .n small{display:block;font:500 14px/1.4 var(--display);letter-spacing:0;color:var(--fg);margin-top:10px}
+.case p{color:var(--muted);font-size:15px}
+.case .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.case .tags span{font:400 11px var(--mono);letter-spacing:.06em;padding:5px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
+@media (max-width:860px){.case{grid-template-columns:1fr}}
+.mention{margin-top:clamp(28px,4vh,44px);color:var(--muted);max-width:70ch}
+.mention b{color:var(--fg)}
+.clients{margin-top:clamp(56px,8vh,96px)}
+.clients ul{list-style:none;margin:20px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.clients li{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 20px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.clients b{font-weight:700;font-size:18px;letter-spacing:-.02em}
+.clients span{font-size:13px;color:var(--muted)}
+.clients em{font-style:normal;font-size:13px;color:var(--lav);margin-top:auto;padding-top:6px}
+@media (max-width:900px){.clients ul{grid-template-columns:repeat(2,1fr)}}
+.case:last-of-type{border-bottom:1px solid var(--line)}
+
+
+/* bento de casos: cada tile es un video corto en loop (o, mientras no hay video, el chat del cliente en movimiento lento) */
+.bento{display:grid;grid-auto-flow:dense;grid-template-columns:1fr 1.2fr 1fr;grid-auto-rows:clamp(190px,21vw,290px);gap:clamp(10px,1.2vw,16px)}
+.tile{position:relative;overflow:hidden;border-radius:22px;text-decoration:none;color:var(--fg);background:var(--bg2);isolation:isolate;min-width:0}
+.tile.tall{grid-row:span 2}
+.tile.banner{grid-column:span 2}
+.tile.purple{background:var(--p)}
+.tile.light{background:var(--fg);color:var(--bg)}
+.tile.dark{box-shadow:inset 0 0 0 1px var(--line)}
+.tile video,.tile .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-1;transform:scale(1.04);transition:transform 2.4s cubic-bezier(.16,1,.3,1)}
+.tile:hover video,.tile:hover .poster{transform:scale(1)}
+.tile.has-media::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(11,6,18,.85),rgba(11,6,18,0) 55%)}
+.tile.has-media{color:#F4F1F8}
+.tile .flow{position:absolute;inset:0 0 clamp(120px,42%,200px) 0;z-index:-1;overflow:hidden;padding:18px;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 22%,#000 70%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 22%,#000 70%,transparent)}
+.tile .flow div{display:flex;flex-direction:column;gap:10px;animation:tflow 40s linear infinite}
+.tile:nth-child(2n) .flow div{animation-duration:52s}
+.tile .flow span{align-self:flex-start;max-width:85%;font-size:13px;line-height:1.35;padding:9px 13px;border-radius:14px 14px 14px 4px;background:rgba(244,241,248,.08);border:1px solid rgba(244,241,248,.1);color:inherit;opacity:.75}
+.tile.light .flow span{background:rgba(11,6,18,.06);border-color:rgba(11,6,18,.1)}
+.tile .flow span:nth-child(3n){align-self:flex-end;border-radius:14px 14px 4px 14px}
+@keyframes tflow{to{transform:translateY(-50%)}}
+.tile .cap{position:absolute;left:0;right:0;bottom:0;padding:clamp(16px,1.8vw,24px);display:flex;flex-direction:column;gap:4px}
+.tile .cap .m{font-family:var(--display);font-weight:900;font-size:clamp(34px,4vw,60px);line-height:.9;letter-spacing:-.05em}
+.tile.purple .cap .m,.tile.dark .cap .m{color:var(--lav)}
+.tile.has-media .cap .m{color:#fff}
+.tile .cap .l{font-size:14px;font-weight:500;line-height:1.3}
+.tile .cap .n{display:flex;justify-content:space-between;gap:10px;margin-top:10px;font:400 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;opacity:.75}
+.tile .cap .n b{font-weight:400;opacity:1}
+.tile .go{position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(244,241,248,.12);font-size:16px;transform:scale(.85);opacity:.0;transition:all .8s cubic-bezier(.16,1,.3,1)}
+.tile:hover .go,.tile:focus-visible .go{opacity:1;transform:none}
+.tile.light .go{background:rgba(11,6,18,.08)}
+@media (max-width:860px){.bento{grid-template-columns:1fr 1fr;grid-auto-rows:clamp(170px,44vw,260px)}.tile.banner{grid-column:span 2}}
+@media (max-width:520px){.bento{grid-template-columns:1fr;grid-auto-rows:auto}.tile,.tile.tall,.tile.banner{grid-column:auto;grid-row:auto;aspect-ratio:4/5}.tile.wide,.tile.square{aspect-ratio:1/1}.tile.banner{aspect-ratio:4/3}}
+@media (prefers-reduced-motion:reduce){.tile .flow div{animation:none}}
+
+.clients{margin-top:clamp(56px,8vh,96px)}
+/* reveal: siempre visible, solo se desplaza */
+.rv{transform:translateY(var(--ry,0px));transition:transform 1.8s var(--slow)}
+.js .rv:not(.in){--ry:70px}
+
+/* ESCENA 7 · método */
+.method{padding-block:clamp(90px,14vh,160px);background:var(--bg2)}
+.method h2{font-weight:800;font-size:clamp(38px,6vw,88px);line-height:.95;letter-spacing:-.05em;max-width:14ch}
+.steps{list-style:none;margin:clamp(48px,7vh,80px) 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;counter-reset:s}
+.steps li{display:flex;flex-direction:column;gap:12px;min-width:0}
+.steps li::before{counter-increment:s;content:"0" counter(s);font-weight:900;font-size:clamp(56px,6vw,96px);line-height:.9;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1.5px var(--dim)}
+.steps .when{color:var(--lav)}
+.steps h3{font-weight:700;font-size:22px;letter-spacing:-.02em}
+.steps p{font-size:15px;color:var(--muted)}
+@media (max-width:900px){.steps{grid-template-columns:repeat(2,1fr);row-gap:48px}}
+@media (max-width:480px){.steps{grid-template-columns:1fr}}
+
+/* ESCENA 8 · voces (marquesina lenta) */
+.voices{padding-block:clamp(80px,12vh,140px);overflow:hidden}
+.g-head{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+.g-score{display:flex;align-items:center;gap:18px}
+.g-score img{width:56px;height:56px;padding:12px;background:#fff;border-radius:14px}
+.g-score h2{margin:0;font-size:clamp(34px,4vw,48px);line-height:1;letter-spacing:-.03em;display:flex;align-items:center;gap:12px}
+.g-score p{margin:6px 0 0;color:var(--muted);font-size:15px}
+.stars{color:#FBBC04;letter-spacing:2px}
+.g-score .stars{font-size:clamp(20px,2.2vw,28px)}
+.marq{display:flex;gap:20px;width:max-content;animation:marq 90s linear infinite}
+.voices:hover .marq{animation-play-state:paused}
+.marq figure{margin:0;width:min(400px,82vw);flex:none;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:18px;padding:24px;display:flex;flex-direction:column}
+.marq .stars{font-size:16px;margin-bottom:12px}
+.marq blockquote{margin:0;font-weight:500;font-size:17px;line-height:1.5;flex:1}
+.marq figcaption{margin-top:18px;font-weight:600;font-size:15px}
+.marq figcaption span{color:var(--muted);font-weight:400}
+@keyframes marq{to{transform:translateX(-50%)}}
+.theme-btn{display:inline-flex;align-items:center;gap:8px;background:none;border:1.5px solid var(--tb,rgba(255,255,255,.3));color:inherit;border-radius:999px;padding:9px 14px;font:600 13px/1 var(--display,Poppins,sans-serif);cursor:pointer;transition:border-color .3s}
+.theme-btn:hover{border-color:currentColor}
+.theme-btn svg{width:17px;height:17px;display:block}
+@media (max-width:760px){.theme-btn span{display:none}.theme-btn{padding:9px}}
+[data-theme=light]{--tb:rgba(21,14,31,.25)}
+
+/* modo claro (selector del header) */
+[data-theme=light]{--bg:#F7F5FA;--bg2:#FFFFFF;--line:#E2DBEA;--fg:#150E1F;--muted:#5E5670;--dim:#C3B9D1;--lav:#6220AF;color-scheme:light}
+[data-theme=light] header.scrolled{background:rgba(247,245,250,.86)}
+[data-theme=light] .logo{filter:brightness(0)}
+[data-theme=light] .grain{opacity:.03}
+[data-theme=light] .btn-p:hover{background:var(--ink);color:#fff}
+[data-theme=light] .reel{background:var(--bg)}
+[data-theme=light] .marq figure{background:#fff;box-shadow:0 10px 30px -18px rgba(21,14,31,.35)}
+[data-theme=light] .close-scene{--fg:#fff;--muted:#E7DAFA;--line:rgba(255,255,255,.25);--dim:rgba(255,255,255,.45);--lav:#E7DAFA;--tb:rgba(255,255,255,.35);color:#fff}
+[data-theme=light] .close-scene .logo{filter:none}
+[data-theme=light] .close-scene form{--fg:#150E1F;--muted:#5E5670;--line:#E2DBEA;--dim:#C3B9D1;--lav:#6220AF;color:#150E1F}
+[data-theme=light] .card{background:#fff}
+[data-theme=light] .card.hot{background:var(--p)}
+[data-theme=light] .chatter span{background:#fff}
+
+/* ESCENA 4 · dónde te ven: pantallas reales por plataforma (mobile first: carrusel con swipe) */
+.eco{padding-block:clamp(72px,12vh,150px);overflow:hidden}
+.eco-txt h2{font-weight:800;font-size:clamp(34px,5vw,72px);line-height:.98;letter-spacing:-.05em;max-width:14ch}
+.eco-txt h2 em{font-style:normal;color:var(--lav)}
+.eco-txt p{color:var(--muted);margin-top:18px;max-width:46ch;font-size:17px}
+.plats{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.plats img{width:40px;height:40px;padding:9px;background:#fff;border-radius:50%;box-shadow:0 0 0 1px rgba(21,14,31,.06)}
+.phones{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:36px var(--gy) 12px var(--gx);scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.phones::-webkit-scrollbar{display:none}
+.ph{flex:none;width:min(78vw,320px);scroll-snap-align:center;display:flex;flex-direction:column;gap:16px}
+.ph-tag{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px}
+.ph-tag img{width:34px;height:34px;padding:7px;background:#fff;border-radius:50%}
+.ph-tag img+img{margin-left:-16px}
+.dev{background:#0d0d0d;border-radius:42px;padding:10px;box-shadow:0 30px 60px -30px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.08)}
+.scr{background:#fff;color:#111;border-radius:33px;height:540px;overflow:hidden;padding:22px 16px 16px;font-size:13px;line-height:1.4;position:relative}
+.ph p.cap{color:var(--muted);font-size:15px;line-height:1.5}
+.ph p.cap b{color:var(--fg);font-weight:600}
+@media (min-width:980px){.phones{justify-content:center;overflow:visible;padding-top:56px}.ph:nth-child(2){transform:translateY(-36px)}}
+.dots-ph{display:flex;justify-content:center;gap:6px;margin-top:10px}
+.dots-ph i{width:6px;height:6px;border-radius:50%;background:var(--dim);transition:width .3s,background .3s}
+.dots-ph i.on{width:18px;border-radius:3px;background:var(--lav)}
+@media (min-width:980px){.dots-ph{display:none}}
+/* instagram */
+.ig-h{display:flex;justify-content:space-between;align-items:center;font:italic 600 19px/1 ui-serif,Georgia,serif;padding-bottom:12px}
+.ig-u{display:flex;align-items:center;gap:9px;padding:6px 0 10px}
+.ig-u i{width:32px;height:32px;border-radius:50%;background:#6220AF center/cover;box-shadow:0 0 0 2px #fff,0 0 0 3.5px #d62976;flex:none}
+.ig-u b{display:block;font-size:13px}.ig-u small{color:#737373;font-size:11px}
+.ig-im{margin:0 -16px;aspect-ratio:1/1;background:#ddd center/cover}
+.ig-cta{margin:0 -16px;background:#3797F0;color:#fff;display:flex;justify-content:space-between;padding:11px 16px;font-weight:600;font-size:13px}
+.ig-ac{display:flex;gap:14px;margin-top:10px}.ig-ac svg{width:22px;height:22px}
+/* google */
+.gg-logo{display:flex;justify-content:center;padding:6px 0 2px}.gg-logo img{width:30px;height:30px}
+.gg-bar{margin-top:12px;border:1px solid #dfe1e5;border-radius:999px;padding:10px 14px;display:flex;gap:8px;align-items:center;box-shadow:0 1px 6px rgba(32,33,36,.12);font-size:14px}
+.gg-tabs{display:flex;gap:16px;font-size:12px;color:#5f6368;margin-top:12px;border-bottom:1px solid #eee;padding-bottom:8px}.gg-tabs b{color:#1a73e8;border-bottom:2px solid #1a73e8;padding-bottom:6px}
+.gg-ad{margin-top:16px}.gg-ad .sp{font-weight:700;font-size:12px}
+.gg-site{display:flex;align-items:center;gap:9px;margin-top:6px}.gg-site i{width:26px;height:26px;border-radius:50%;background:#E30613;color:#fff;font:700 11px/26px sans-serif;text-align:center;font-style:normal}
+.gg-site b{display:block;font-size:13px;font-weight:500}.gg-site small{color:#4d5156;font-size:11.5px}
+.gg-t{color:#1a0dab;font-size:18px;line-height:1.3;margin-top:8px}
+.gg-d{color:#4d5156;font-size:13px;margin-top:4px}
+.gg-sl{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.gg-sl span{border:1px solid #dadce0;border-radius:999px;padding:5px 11px;font-size:12px;color:#1a73e8;font-weight:500}
+.gg-map{margin-top:16px;height:120px;border-radius:14px;background:linear-gradient(135deg,#e8f0e3 0 30%,#dfe9f5 30% 55%,#f3efe4 55%);position:relative}
+.gg-map::after{content:"";position:absolute;left:58%;top:34%;width:18px;height:18px;border-radius:50% 50% 50% 0;background:#EA4335;transform:rotate(-45deg)}
+.gg-ln{height:10px;border-radius:5px;background:#eee;margin-top:8px}
+/* chatgpt */
+.cg-h{display:flex;align-items:center;justify-content:center;gap:7px;font-weight:600;font-size:15px;padding-bottom:14px}.cg-h img{width:18px;height:18px}
+.cg-q{margin-left:auto;max-width:82%;background:#f1f1f1;border-radius:18px;padding:10px 14px;font-size:13.5px;width:fit-content}
+.cg-a{margin-top:14px;font-size:13.5px;color:#222}
+.cg-card{margin-top:12px;border:1px solid #e5e5e5;border-radius:16px;padding:12px;display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center}
+.cg-card i{width:44px;height:44px;border-radius:12px;background:#1F5F8B;color:#fff;font:800 14px/44px sans-serif;text-align:center;font-style:normal}
+.cg-card b{display:block;font-size:13.5px}.cg-card small{color:#666;font-size:11.5px}
+.cg-card .sp{grid-column:1/-1;font-size:10.5px;color:#888;text-transform:uppercase;letter-spacing:.08em}
+.cg-card a{grid-column:1/-1;text-align:center;background:#111;color:#fff;border-radius:999px;padding:8px;font-weight:600;font-size:12.5px;text-decoration:none}
+.cg-in{position:absolute;left:14px;right:14px;bottom:14px;border:1px solid #e5e5e5;border-radius:999px;padding:11px 16px;color:#999;font-size:13px}
+
+
+/* blog */
+.blog{padding-block:clamp(80px,12vh,140px);border-top:1px solid var(--line)}
+.blog-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:48px}
+.blog-head h2{font-weight:800;font-size:clamp(34px,4.6vw,64px);line-height:.95;letter-spacing:-.05em;max-width:16ch}
+.posts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.post{display:flex;flex-direction:column;gap:12px;text-decoration:none;padding-top:20px;border-top:1px solid var(--dim);min-width:0}
+.post .mono{color:var(--lav);font-size:11px}
+.post h3{font-weight:700;font-size:21px;line-height:1.25;letter-spacing:-.02em;transition:color .6s var(--slow)}
+.post:hover h3{color:var(--lav)}
+.post p{color:var(--muted);font-size:14px}
+.post time{color:var(--muted);font-size:12px;margin-top:auto}
+.note{font-size:12px;color:var(--muted);margin-top:20px}
+@media (max-width:900px){.posts{grid-template-columns:1fr}}
+
+/* preguntas */
+.faq{padding-block:clamp(80px,12vh,140px);border-top:1px solid var(--line)}
+.faq .grid{display:grid;grid-template-columns:1fr 1.6fr;gap:40px}
+.faq h2{font-weight:800;font-size:clamp(34px,4.6vw,64px);line-height:.95;letter-spacing:-.05em}
+.faq details{border-bottom:1px solid var(--line)}
+.faq details:first-child{border-top:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;padding-block:22px;font-size:clamp(17px,1.6vw,20px);font-weight:600}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-weight:300;font-size:28px;line-height:1;color:var(--lav);transition:transform .8s var(--slow)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{color:var(--muted);padding-bottom:24px;max-width:62ch}
+@media (max-width:860px){.faq .grid{grid-template-columns:1fr}}
+
+/* cierre */
+.close-scene{background:var(--p);padding-block:clamp(90px,14vh,160px) clamp(60px,8vh,100px)}
+.close-scene .big{font-size:clamp(52px,10vw,168px)}
+.close-scene .big .ln>span{animation:none}
+.ct{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,80px);margin-top:clamp(48px,7vh,80px);align-items:start}
+.direct{display:grid;margin:0}
+.direct div{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-block:18px;border-bottom:1px solid rgba(255,255,255,.25)}
+.direct dt{font:400 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#E7DAFA}
+.direct dd{margin:0;font-weight:600;font-size:clamp(16px,1.6vw,19px);overflow-wrap:anywhere;user-select:all}
+.direct dd a{text-decoration:none}
+form{background:var(--bg);border-radius:28px;padding:clamp(24px,3.6vw,40px);display:grid;gap:16px;min-width:0}
+form h3{font-size:22px;font-weight:700;letter-spacing:-.02em}
+label{display:grid;gap:6px;font-size:13px;font-weight:500;color:var(--muted)}
+input,select,textarea{font:inherit;font-size:15px;color:var(--fg);background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:13px 15px;width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--lav)}
+textarea{min-height:96px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+form .btn{justify-content:center;width:100%;border:0}
+form .btn-p:hover{background:var(--fg)}
+.ok{border:1px solid var(--lav);border-radius:14px;padding:12px 14px;font-size:14px}
+@media (max-width:860px){.ct{grid-template-columns:1fr}}
+@media (max-width:520px){.row2{grid-template-columns:1fr}}
+
+footer{padding-block:48px calc(48px + env(safe-area-inset-bottom,0px));font-size:13px;color:var(--muted)}
+.ft{display:grid;grid-template-columns:auto 1fr auto;gap:24px 48px;align-items:center}
+.ft .logo{height:26px}
+.ft ul{display:flex;flex-wrap:wrap;gap:8px 22px;list-style:none;margin:0;padding:0}
+.ft a{text-decoration:none}.ft a:hover{color:var(--fg)}
+@media (max-width:860px){.ft{grid-template-columns:1fr}}
+
+/* showreel: crece hasta pantalla completa */
+.reel{position:relative;height:190vh;background:var(--ink)}
+.reel .stage{position:sticky;top:0;height:100vh;height:100svh;display:grid;place-items:center;overflow:hidden}
+.reel .frame-v{position:relative;width:calc(100vw - (1 - var(--g,0)) * 28vw);height:calc((100vw - (1 - var(--g,0)) * 28vw) * .5625 + var(--g,0) * max(0px, 100svh - 56.25vw));max-height:calc(100svh - (1 - var(--g,0)) * 22svh);border-radius:calc((1 - var(--g,0)) * 22px);overflow:hidden;background:#000;box-shadow:0 40px 120px -40px rgba(98,32,175,.55)}
+.reel video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.reel .rl-cap{position:absolute;left:clamp(16px,4vw,48px);right:clamp(16px,4vw,48px);bottom:clamp(16px,3vw,32px);display:flex;justify-content:space-between;align-items:flex-end;gap:16px;opacity:var(--g,0);pointer-events:none}
+.reel .rl-cap.on{pointer-events:auto}
+.reel .rl-cap .mono{color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+.reel .rl-head{position:absolute;top:clamp(80px,12vh,120px);left:0;right:0;text-align:center;opacity:calc(1 - var(--g,0) * 2);pointer-events:none}
+.reel .rl-head .mono{color:var(--lav)}
+@media (max-width:860px){
+  .reel{height:auto}
+  .reel .stage{position:relative;height:auto;display:block;padding-block:72px 40px}
+  .reel .frame-v{width:min(calc(100% - 32px),calc(78svh * .5625));height:auto;max-height:none;aspect-ratio:9/16;margin-inline:auto;border-radius:18px}
+  .reel .rl-head{position:static;opacity:1;text-align:left;padding:0 16px 16px}
+  .reel .rl-cap{position:static;opacity:1;margin-top:16px;padding-inline:16px;pointer-events:auto}
+  .reel .rl-cap .mono{color:var(--muted);text-shadow:none}
+}
+
+/* Matias quiere el movimiento siempre: el ajuste "reducir movimiento" del sistema solo saca el grano */
+@media (prefers-reduced-motion:reduce){.grain{display:none}}
+.hp{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
+.f-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+.f-fine{font-size:13px;color:var(--muted);margin-top:12px}
+
+/* logos de plataformas */
+.card .logos{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+/* cards compactas: logos, título, bajada y link, sin aire de más */
+.card{aspect-ratio:auto;justify-content:flex-start;gap:22px}
+.card>div{display:flex;flex-direction:column;flex:1}
+.card .go{margin-top:0;padding-top:18px}
+.card .logos{margin-top:0}
+.card .logos img{width:44px;height:44px;padding:10px;border-radius:12px;box-shadow:0 0 0 1px rgba(21,14,31,.06)}
+.track{align-items:flex-start}
+/* celular: carrusel con swipe en vez de scroll horizontal fijado */
+@media (max-width:760px){.svc{height:auto!important}.svc .stage{position:static;height:auto;padding-block:72px 40px}.track{transform:none!important;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}.track::-webkit-scrollbar{display:none}.card{width:80vw;scroll-snap-align:center}}
+/* blog con imagen */
+.post .pimg{display:block;aspect-ratio:16/10;border-radius:18px;overflow:hidden;background:var(--bg2);margin-bottom:6px}
+.post .pimg img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s var(--slow)}
+.post:hover .pimg img{transform:scale(1.04)}
+.posts .post{border-top:0;padding-top:0}
+.post .mono{letter-spacing:.06em;text-transform:none;font:600 13px var(--display)}
+
+.card .logos img{width:36px;height:36px;padding:8px;background:#fff;border-radius:10px;display:block}
+.plat{flex-basis:100%;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.plat .mono{color:var(--muted);margin-right:6px}
+.plat .pl{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#1d1a22;border-radius:999px;padding:7px 14px 7px 10px;font-size:13px;font-weight:600}
+.plat .pl img{width:18px;height:18px}
+/* botón de WhatsApp del header */
+.hd .wa-btn{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#0B0612;text-decoration:none;font-weight:700;font-size:14px;padding:10px 16px;border-radius:999px;box-shadow:0 6px 20px -6px rgba(37,211,102,.6)}
+.hd .wa-btn svg{width:18px;height:18px}
+.hd .wa-btn:hover{background:#fff}
+@media (max-width:600px){.hd .wa-btn span{display:none}.hd .wa-btn{padding:10px}}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header>
+  <div class="wrap hd">
+    <a href="/" aria-label="MDL Marketing Digital, inicio"><img class="logo" src="/img/mdl-logo-blanco.png" alt="MDL Marketing Digital" width="112" height="28"></a>
+    <div class="hd-r">
+      <button class="theme-btn" type="button" aria-label="Cambiar entre modo claro y oscuro"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg><span>Modo claro</span></button>
+      <a class="wa-btn" href="https://wa.me/5493489565444" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp"><svg fill="currentColor" aria-hidden="true" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg><span>WhatsApp</span></a>
+      <button class="menu-btn" id="menu-open" aria-expanded="false" aria-controls="nav"><i></i>Menú</button>
+    </div>
+  </div>
+</header>
+
+<nav class="nav" id="nav" aria-label="Principal">
+  <button class="close" id="menu-close">Cerrar ✕</button>
+  <ul>
+    <li><a href="#servicios"><small>01</small>Servicios</a></li>
+    <li><a href="#casos"><small>02</small>Casos</a></li>
+    <li><a href="#metodo"><small>03</small>Cómo trabajamos</a></li>
+    <li><a href="/blog/"><small>04</small>Blog</a></li>
+    <li><a href="#contacto"><small>05</small>Contacto</a></li>
+  </ul>
+</nav>
+
+<main>
+<!-- ESCENA 1 -->
+<section class="open-scene" aria-labelledby="t1">
+  <div class="chatter" aria-hidden="true">
+    <div class="col">
+      <span>Hola! Vi el anuncio, ¿qué planes tienen en Campana?<b>09:12</b></span>
+      <span>¿El colchón de 2 plazas tiene envío?<b>09:40</b></span>
+      <span>¿Llega la fibra a mi barrio?<b>10:05</b></span>
+      <span>Buenas, quería info para cambiarme<b>10:47</b></span>
+      <span>¿Atienden en Escobar? Somos 4 en el grupo familiar<b>13:05</b></span>
+      <span>Me pasan precio del m³ puesto en obra?<b>14:22</b></span>
+      <span>Hola, me pasan precios? Gracias<b>16:30</b></span>
+      <span>¿Tienen turno para esta semana?<b>18:02</b></span>
+      <span>Hola! Vi el anuncio, ¿qué planes tienen en Campana?<b>09:12</b></span>
+      <span>¿El colchón de 2 plazas tiene envío?<b>09:40</b></span>
+      <span>¿Llega la fibra a mi barrio?<b>10:05</b></span>
+      <span>Buenas, quería info para cambiarme<b>10:47</b></span>
+      <span>¿Atienden en Escobar? Somos 4 en el grupo familiar<b>13:05</b></span>
+      <span>Me pasan precio del m³ puesto en obra?<b>14:22</b></span>
+      <span>Hola, me pasan precios? Gracias<b>16:30</b></span>
+      <span>¿Tienen turno para esta semana?<b>18:02</b></span>
+    </div>
+    <div class="col">
+      <span>Quiero presupuesto para la obra de Zárate<b>08:55</b></span>
+      <span>¿Cuánto sale la multa? Me llegó una foto<b>11:18</b></span>
+      <span>Vi el reel, ¿dónde queda la sede?<b>12:31</b></span>
+      <span>¿Tienen la mesa en roble?<b>15:44</b></span>
+      <span>Hola, ¿tienen cuotas?<b>17:09</b></span>
+      <span>Quiero presupuesto para la obra de Zárate<b>08:55</b></span>
+      <span>¿Cuánto sale la multa? Me llegó una foto<b>11:18</b></span>
+      <span>Vi el reel, ¿dónde queda la sede?<b>12:31</b></span>
+      <span>¿Tienen la mesa en roble?<b>15:44</b></span>
+      <span>Hola, ¿tienen cuotas?<b>17:09</b></span>
+    </div>
+  </div>
+  <div class="wrap">
+    <h1 class="big" id="t1">
+      <span class="ln"><span>No hacemos</span></span>
+      <span class="ln"><span>ruido. Hacemos</span></span>
+      <span class="ln"><span><em>ventas.</em></span></span>
+    </h1>
+    <div class="rule"></div>
+    <div class="open-foot">
+      <p>Hace más de 10 años que llenamos el WhatsApp de nuestros clientes con <b>gente que quiere comprar</b>. Con campañas en Meta, Google y ahora también en ChatGPT.</p>
+      <div class="ctas">
+        <a class="btn btn-p" href="#contacto">Hablemos de tus ventas <span class="arr">→</span></a>
+        <a class="btn btn-o" href="#casos">Ver resultados</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWREEL -->
+<section class="reel" id="reel" aria-label="Showreel de MDL">
+  <div class="stage">
+    <div class="rl-head"><span class="mono">Showreel</span></div>
+    <div class="frame-v">
+      <video id="reel-v" muted loop playsinline preload="none" poster="/video/showreel.jpg" data-src="/video/showreel.mp4" data-src-sm="/video/showreel-9x16.mp4" data-poster-sm="/video/showreel-9x16.jpg" aria-label="Showreel de MDL: trabajos reales de campañas, redes, webs y agentes de IA"></video>
+    </div>
+    <div class="rl-cap" id="reel-cap">
+      <span class="mono">Trabajos reales, en 32 segundos</span>
+    </div>
+  </div>
+</section>
+
+<!-- ESCENA 2 -->
+<section class="numbers" id="numeros" aria-label="Resultados en números">
+  <div class="stage">
+    <div class="wrap frame" data-frame="0">
+      <div class="count"><small>+</small><span data-to="16700">16.700</span></div>
+      <div class="cap"><span class="mono">Meta Ads · 2023 a 2026</span><p>conversaciones de WhatsApp para nuestros clientes. Personas reales, pidiendo precio.</p></div>
+    </div>
+    <div class="wrap frame" data-frame="1">
+      <div class="count"><small>+</small><span data-to="40">40</span><small>%</small></div>
+      <div class="cap"><span class="mono">Reyes del Colchón · agente de IA</span><p>más ventas con un agente que atiende y califica cada consulta las 24 horas.</p></div>
+    </div>
+    <div class="wrap frame" data-frame="2">
+      <div class="count"><small>+</small><span data-to="10">10</span><small> años</small></div>
+      <div class="cap"><span class="mono">Más de 10 años en marketing digital</span><p>haciendo marketing para pymes e industrias que necesitan vender, no aparecer.</p></div>
+    </div>
+    <div class="progress" aria-hidden="true"><i></i><i></i><i></i></div>
+  </div>
+</section>
+
+<!-- ESCENA 3 -->
+<section class="manifesto" id="manifiesto">
+  <div class="wrap">
+    
+    <p class="say" id="say">No somos una agencia de likes. Medimos lo mismo que mide tu contador: consultas, presupuestos y ventas. Si una campaña no vende, la cortamos. Si vende, la escalamos.</p>
+    <div class="sign"><div class="av" aria-hidden="true">MdL</div><div><b>Matías de la Llera</b>Fundador de MDL</div></div>
+  </div>
+</section>
+
+<!-- ESCENA 4 · dónde te ven -->
+<section class="eco" id="plataformas" aria-labelledby="t4b">
+  <div class="wrap eco-txt rv">
+    <h2 id="t4b">Te ven donde ya están <em>mirando.</em></h2>
+    <p>Instagram, Google, YouTube, TikTok y ahora ChatGPT. Ponemos tu marca en la pantalla de tu cliente y cada anuncio termina en tu WhatsApp.</p>
+    <div class="plats"><img src="/img/logos/meta.svg" alt="Meta" title="Meta" width="40" height="40" loading="lazy"><img src="/img/logos/instagram.svg" alt="Instagram" title="Instagram" width="40" height="40" loading="lazy"><img src="/img/logos/facebook.svg" alt="Facebook" title="Facebook" width="40" height="40" loading="lazy"><img src="/img/logos/whatsapp.svg" alt="WhatsApp" title="WhatsApp" width="40" height="40" loading="lazy"><img src="/img/logos/google.svg" alt="Google" title="Google" width="40" height="40" loading="lazy"><img src="/img/logos/youtube.svg" alt="YouTube" title="YouTube" width="40" height="40" loading="lazy"><img src="/img/logos/tiktok.svg" alt="TikTok" title="TikTok" width="40" height="40" loading="lazy"><img src="/img/logos/openai.svg" alt="ChatGPT" title="ChatGPT" width="40" height="40" loading="lazy"><img src="/img/logos/claude.svg" alt="Claude" title="Claude" width="40" height="40" loading="lazy"><img src="/img/logos/googlegemini.svg" alt="Gemini" title="Gemini" width="40" height="40" loading="lazy"></div>
+  </div>
+  <div class="phones" id="phones">
+    <div class="ph">
+      <div class="ph-tag"><img src="/img/logos/instagram.svg" alt="" width="34" height="34" loading="lazy"><img src="/img/logos/facebook.svg" alt="" width="34" height="34" loading="lazy"><span>Instagram y Facebook</span></div>
+      <div class="dev"><div class="scr" aria-hidden="true">
+        <div class="ig-h"><span>Instagram</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg></div>
+        <div class="ig-u"><i style="background-image:url(/video/casos/cima-integral.jpg)"></i><div><b>cimaintegral</b><small>Publicidad</small></div></div>
+        <div class="ig-im" style="background-image:url(/video/casos/cima-integral.jpg)"></div>
+        <div class="ig-cta"><span>Enviar mensaje de WhatsApp</span><span>›</span></div>
+        <div class="ig-ac"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></div>
+      </div></div>
+      <p class="cap"><b>Tu anuncio en el feed</b>, mostrado a gente de tu zona, con un botón directo a tu WhatsApp. Así trabajamos con Cima Integral.</p>
+    </div>
+    <div class="ph">
+      <div class="ph-tag"><img src="/img/logos/google.svg" alt="" width="34" height="34" loading="lazy"><img src="/img/logos/youtube.svg" alt="" width="34" height="34" loading="lazy"><span>Google y YouTube</span></div>
+      <div class="dev"><div class="scr" aria-hidden="true">
+        <div class="gg-logo"><img src="/img/logos/google.svg" alt=""></div>
+        <div class="gg-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m21 21-5-5"/></svg>corralón cerca de mí</div>
+        <div class="gg-tabs"><b>Todo</b><span>Maps</span><span>Imágenes</span><span>Videos</span></div>
+        <div class="gg-ad"><div class="sp">Patrocinado</div>
+          <div class="gg-site"><i>C</i><div><b>Corralón San Martín</b><small>corralonsanmartin.com.ar</small></div></div>
+          <div class="gg-t">Materiales de construcción con envío en el día</div>
+          <div class="gg-d">Arena, cemento, hierro y más. Pedí tu presupuesto por WhatsApp y te respondemos al toque.</div>
+          <div class="gg-sl"><span>Presupuesto</span><span>Envíos</span><span>WhatsApp</span></div>
+        </div>
+        <div class="gg-map"></div><div class="gg-ln"></div><div class="gg-ln" style="width:70%"></div>
+      </div></div>
+      <p class="cap"><b>Primero cuando te buscan.</b> Anuncios en Google, Maps y YouTube para la gente que ya está buscando lo que vendés. (Negocio de ejemplo.)</p>
+    </div>
+    <div class="ph">
+      <div class="ph-tag"><img src="/img/logos/openai.svg" alt="" width="34" height="34" loading="lazy"><span>ChatGPT</span></div>
+      <div class="dev"><div class="scr" aria-hidden="true">
+        <div class="cg-h"><img src="/img/logos/openai.svg" alt="">ChatGPT</div>
+        <div class="cg-q">¿Dónde alquilo un 2 ambientes en Pilar?</div>
+        <div class="cg-a">Hay varias inmobiliarias con buena oferta de 2 ambientes en Pilar centro. Te conviene comparar expensas y cercanía a la estación.</div>
+        <div class="cg-card"><span class="sp">Patrocinado</span><i>LR</i><div><b>Inmobiliaria Los Robles</b><small>Alquileres y ventas en Pilar</small></div><a>Ver propiedades</a></div>
+        <div class="cg-in">Preguntá lo que quieras</div>
+      </div></div>
+      <p class="cap"><b>Dentro de la respuesta.</b> Somos partner oficial de OpenAI para anuncios en ChatGPT. (Negocio de ejemplo.)</p>
+    </div>
+  </div>
+  <div class="dots-ph" id="dots-ph" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+</section>
+
+<!-- ESCENA 5 -->
+<section class="svc" id="servicios" aria-labelledby="t5">
+  <div class="stage">
+    <div class="wrap svc-head">
+      <h2 id="t5">Lo que hacemos.</h2>
+    </div>
+    <div class="track" id="track">
+      <a class="card" href="/chatgpt/"><span class="logos"><img src="/img/logos/openai.svg" alt="ChatGPT" width="20" height="20"></span><div><h3>Anuncios en ChatGPT</h3><p>Aparecé dentro de ChatGPT cuando tus clientes piden una recomendación.</p><div class="go">Ver servicio →</div></div></a>
+      <a class="card" href="/servicios/meta-ads/"><span class="logos"><img src="/img/logos/meta.svg" alt="Meta" width="20" height="20"><img src="/img/logos/instagram.svg" alt="Instagram" width="20" height="20"><img src="/img/logos/facebook.svg" alt="Facebook" width="20" height="20"><img src="/img/logos/whatsapp.svg" alt="WhatsApp" width="20" height="20"></span><div><h3>Publicidad en Instagram y Facebook</h3><p>Campañas que llevan a WhatsApp, a tu web o a tu local, optimizadas cada semana.</p><div class="go">Ver servicio →</div></div></a>
+      <a class="card" href="/servicios/google-ads/"><span class="logos"><img src="/img/logos/googleads.svg" alt="Google Ads" width="20" height="20"><img src="/img/logos/google.svg" alt="Google" width="20" height="20"><img src="/img/logos/youtube.svg" alt="YouTube" width="20" height="20"></span><div><h3>Google y YouTube</h3><p>Aparecé cuando te buscan, con presupuesto controlado y conversiones medidas.</p><div class="go">Ver servicio →</div></div></a>
+      <a class="card" href="/servicios/agentes-ia/"><span class="logos"><img src="/img/logos/whatsapp.svg" alt="WhatsApp" width="20" height="20"><img src="/img/logos/instagram.svg" alt="Instagram" width="20" height="20"><img src="/img/logos/facebook.svg" alt="Messenger" width="20" height="20"></span><div><h3>Agentes de IA</h3><p>Asistentes que responden consultas y califican clientes las 24 horas.</p><div class="go">Ver servicio →</div></div></a>
+      <a class="card" href="/social-media/"><span class="logos"><img src="/img/logos/instagram.svg" alt="Instagram" width="20" height="20"><img src="/img/logos/facebook.svg" alt="Facebook" width="20" height="20"><img src="/img/logos/tiktok.svg" alt="TikTok" width="20" height="20"><img src="/img/logos/linkedin.svg" alt="LinkedIn" width="20" height="20"></span><div><h3>Gestión de redes sociales</h3><p>Estrategia, contenido grabado en tu negocio, publicaciones y comunidad. Contenido que genera consultas.</p><div class="go">Ver servicio →</div></div></a>
+      <a class="card" href="/webdesign/"><span class="logos"><img src="/img/logos/google.svg" alt="Google" width="20" height="20"><img src="/img/logos/googlemaps.svg" alt="Google Maps" width="20" height="20"></span><div><h3>Diseño web</h3><p>Sitios rápidos, pensados para el celular y para convertir visitas en consultas.</p><div class="go">Ver servicio →</div></div></a>
+      <a class="card" href="/servicios/seo-geo/"><span class="logos"><img src="/img/logos/google.svg" alt="Google" width="20" height="20"><img src="/img/logos/googlegemini.svg" alt="Gemini" width="20" height="20"><img src="/img/logos/perplexity.svg" alt="Perplexity" width="20" height="20"></span><div><h3>Posicionamiento en Google y en la IA</h3><p>Que te encuentren en Google y que ChatGPT, Gemini y Perplexity te recomienden.</p><div class="go">Ver servicio →</div></div></a>
+      <a class="card" href="#contacto"><span class="logos"><img src="/img/logos/meta.svg" alt="Meta" width="20" height="20"><img src="/img/logos/google.svg" alt="Google" width="20" height="20"><img src="/img/logos/openai.svg" alt="ChatGPT" width="20" height="20"><img src="/img/logos/whatsapp.svg" alt="WhatsApp" width="20" height="20"></span><div><h3>Todo junto, un solo equipo</h3><p>Estrategia, contenido, pauta y web coordinados con un objetivo de ventas.</p><div class="go">Pedir propuesta →</div></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ESCENA 6 -->
+<section class="cases" id="casos" aria-labelledby="t6">
+  <div class="wrap">
+    <div class="cases-head rv"><h2 id="t6">Clientes que venden más.</h2><p>Números reales de Meta Ads y de nuestros clientes, 2025 y 2026. Sin capturas de likes ni métricas de vanidad.</p></div>
+    <div class="bento"><a class="tile tall purple has-media rv" href="/casos/#reyes-del-colchon"><video muted loop playsinline preload="none" data-src="/video/casos/reyes-del-colchon.mp4" poster="/video/casos/reyes-del-colchon.jpg" aria-hidden="true"></video><span class="go" aria-hidden="true">↗</span><span class="cap"><span class="m">+40%</span><span class="l">ventas con agente de IA</span><span class="n"><b>Reyes del Colchón</b><span>Agente de IA · CRM · Meta Ads</span></span></span></a><a class="tile wide dark has-media rv" href="/casos/#cima-integral"><video muted loop playsinline preload="none" data-src="/video/casos/cima-integral.mp4" poster="/video/casos/cima-integral.jpg" aria-hidden="true"></video><span class="go" aria-hidden="true">↗</span><span class="cap"><span class="m">1.532</span><span class="l">conversaciones en 3 meses</span><span class="n"><b>Cima Integral</b><span>Meta Ads · Redes</span></span></span></a><a class="tile tall dark has-media rv" href="/casos/#productos-valido"><video muted loop playsinline preload="none" data-src="/video/casos/productos-valido.mp4" poster="/video/casos/productos-valido.jpg" aria-hidden="true"></video><span class="go" aria-hidden="true">↗</span><span class="cap"><span class="m">×2,8</span><span class="l">vistas por reel desde que tomamos el contenido</span><span class="n"><b>Productos Válido</b><span>Redes · Contenido</span></span></span></a><a class="tile wide light has-media rv" href="/casos/#sin-foto-multa"><video muted loop playsinline preload="none" data-src="/video/casos/sin-foto-multa.mp4" poster="/video/casos/sin-foto-multa.jpg" aria-hidden="true"></video><span class="go" aria-hidden="true">↗</span><span class="cap"><span class="m">4.235</span><span class="l">conversaciones jun–oct</span><span class="n"><b>Sin Foto Multa</b><span>Meta Ads · Redes</span></span></span></a><a class="tile banner dark has-media rv" href="/casos/#supermix"><video muted loop playsinline preload="none" data-src="/video/casos/supermix.mp4" poster="/video/casos/supermix.jpg" aria-hidden="true"></video><span class="go" aria-hidden="true">↗</span><span class="cap"><span class="m">399</span><span class="l">conversaciones en 2 meses + web nueva</span><span class="n"><b>Supermix</b><span>Diseño web · Meta Ads · Redes</span></span></span></a><a class="tile square purple has-media rv" href="/casos/#ifranet"><video muted loop playsinline preload="none" data-src="/video/casos/ifranet.mp4" poster="/video/casos/ifranet.jpg" aria-hidden="true"></video><span class="go" aria-hidden="true">↗</span><span class="cap"><span class="m">−65%</span><span class="l">costo por consulta vs 2024</span><span class="n"><b>Ifranet</b><span>Meta Ads · Redes</span></span></span></a></div><script>addEventListener('DOMContentLoaded',function(){var v=[].slice.call(document.querySelectorAll('.tile video,video.lazy-v'));if(!v.length)return;var io=new IntersectionObserver(function(es){es.forEach(function(e){var x=e.target;if(e.isIntersecting){if(!x.src)x.src=x.dataset.src;x.play().catch(function(){})}else x.pause()})},{rootMargin:'120px'});v.forEach(function(x){io.observe(x)})});</script>
+    <a class="btn btn-o rv" href="/casos/" style="margin-top:40px">Ver los casos completos <span class="arr">→</span></a>
+  </div>
+</section>
+
+<!-- ESCENA 7 -->
+<section class="method" id="metodo" aria-labelledby="t7">
+  <div class="wrap">
+    <h2 id="t7" class="rv">De la primera charla a la primera venta.</h2>
+    <ol class="steps">
+      <li class="rv"><span class="when mono">Semana 1</span><h3>Diagnóstico</h3><p>Revisamos tus redes, tu web y tus cuentas. Te decimos qué funciona y qué está quemando plata.</p></li>
+      <li class="rv"><span class="when mono">Semana 1</span><h3>Estrategia</h3><p>Objetivo, público, zonas y presupuesto. Un plan por escrito, sin letra chica.</p></li>
+      <li class="rv"><span class="when mono">Semana 2</span><h3>Producción y lanzamiento</h3><p>Grabamos, diseñamos y salimos al aire. Vos aprobás todo antes de publicar.</p></li>
+      <li class="rv"><span class="when mono">Todos los meses</span><h3>Optimización y reporte</h3><p>Ajustes semanales y un reporte claro, pensado para leer en el celular.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ESCENA 8 -->
+<section class="voices" id="resenas" aria-labelledby="t8">
+  <div class="wrap g-head rv">
+    <div class="g-score"><img src="/img/logos/google.svg" alt="Google" width="40" height="40"><div><h2 id="t8"><b>4,7</b> <span class="stars" aria-hidden="true">★★★★★</span></h2><p>45 reseñas de clientes en Google</p></div></div>
+    <a class="btn btn-o" href="https://www.google.com/maps?cid=14337484943622052509" target="_blank" rel="noopener">Ver todas en Google <span class="arr">→</span></a>
+  </div>
+  <div class="marq">
+    <figure><div class="stars" aria-label="5 de 5 estrellas">★★★★★</div><blockquote>“…comenzamos a incrementar el flujo de datos como primera medida desde Facebook, que era nuestra única plataforma en ese momento, y en menos de las 24hs habíamos triplicado las consultas!!!”</blockquote><figcaption>Pablo V. <span>· reseña en Google</span></figcaption></figure>
+    <figure><div class="stars" aria-label="5 de 5 estrellas">★★★★★</div><blockquote>“Excelente todo el equipo, estoy muy conforme con el servicio. Se noto el antes y el después desde que los contraté. Los super recomiendo!”</blockquote><figcaption>Mauricio V. <span>· reseña en Google</span></figcaption></figure>
+    <figure><div class="stars" aria-label="5 de 5 estrellas">★★★★★</div><blockquote>“Desde que empece a trabajar con la agencia se solucionaron todos mis problemas de Ecommerce. Mis ventas por canal digital están superando a las ventas por canal humano.”</blockquote><figcaption>Fernando E. <span>· reseña en Google</span></figcaption></figure>
+    <figure><div class="stars" aria-label="5 de 5 estrellas">★★★★★</div><blockquote>“Me los recomendaron y la verdad que es increíble la buena atención y resultados de los servicios que ofrecen. Estamos muy contentos de contar con un proveedor así.”</blockquote><figcaption>Gastón A. <span>· reseña en Google</span></figcaption></figure>
+    <figure><div class="stars" aria-label="5 de 5 estrellas">★★★★★</div><blockquote>“Feliz y agradecida con la página web que armaron. Cumplieron en todo: en los plazos (sorprendentemente breves), en el diseño, en las solicitudes de modificaciones.”</blockquote><figcaption>Fiorella B. <span>· reseña en Google</span></figcaption></figure>
+    <figure><div class="stars" aria-label="5 de 5 estrellas">★★★★★</div><blockquote>“MDL me brindó una atención hiper personalizada. Estuvieron atentos al detalle, fueron muy creativos y profesionales en todo momento. Más que recomendable!”</blockquote><figcaption>Luciana D. <span>· reseña en Google</span></figcaption></figure>
+    <figure><div class="stars" aria-label="5 de 5 estrellas">★★★★★</div><blockquote>“Excelente grupo de profesionales e inmejorable atención, están en todos los detalles. Muy recomendables.”</blockquote><figcaption>Nicolás C. <span>· reseña en Google</span></figcaption></figure>
+    <figure><div class="stars" aria-label="5 de 5 estrellas">★★★★★</div><blockquote>“Muy buena agencia! Súper recomendable! Todos excelentes profesionales y de muy buena calidad humana!”</blockquote><figcaption>Marina L. <span>· reseña en Google</span></figcaption></figure>
+    <figure><div class="stars" aria-label="5 de 5 estrellas">★★★★★</div><blockquote>“Excelente. Estuvieron en cada detalle que les pedimos y siempre despejaron las dudas que teníamos.”</blockquote><figcaption>Naty M. <span>· reseña en Google</span></figcaption></figure>
+    <figure aria-hidden="true"><div class="stars" aria-label="5 de 5 estrellas">★★★★★</div><blockquote>“…comenzamos a incrementar el flujo de datos como primera medida desde Facebook, que era nuestra única plataforma en ese momento, y en menos de las 24hs habíamos triplicado las consultas!!!”</blockquote><figcaption>Pablo V. <span>· reseña en Google</span></figcaption></figure>
+    <figure aria-hidden="true"><div class="stars" aria-label="5 de 5 estrellas">★★★★★</div><blockquote>“Excelente todo el equipo, estoy muy conforme con el servicio. Se noto el antes y el después desde que los contraté. Los super recomiendo!”</blockquote><figcaption>Mauricio V. <span>· reseña en Google</span></figcaption></figure>
+    <figure aria-hidden="true"><div class="stars" aria-label="5 de 5 estrellas">★★★★★</div><blockquote>“Desde que empece a trabajar con la agencia se solucionaron todos mis problemas de Ecommerce. Mis ventas por canal digital están superando a las ventas por canal humano.”</blockquote><figcaption>Fernando E. <span>· reseña en Google</span></figcaption></figure>
+    <figure aria-hidden="true"><div class="stars" aria-label="5 de 5 estrellas">★★★★★</div><blockquote>“Me los recomendaron y la verdad que es increíble la buena atención y resultados de los servicios que ofrecen. Estamos muy contentos de contar con un proveedor así.”</blockquote><figcaption>Gastón A. <span>· reseña en Google</span></figcaption></figure>
+    <figure aria-hidden="true"><div class="stars" aria-label="5 de 5 estrellas">★★★★★</div><blockquote>“Feliz y agradecida con la página web que armaron. Cumplieron en todo: en los plazos (sorprendentemente breves), en el diseño, en las solicitudes de modificaciones.”</blockquote><figcaption>Fiorella B. <span>· reseña en Google</span></figcaption></figure>
+    <figure aria-hidden="true"><div class="stars" aria-label="5 de 5 estrellas">★★★★★</div><blockquote>“MDL me brindó una atención hiper personalizada. Estuvieron atentos al detalle, fueron muy creativos y profesionales en todo momento. Más que recomendable!”</blockquote><figcaption>Luciana D. <span>· reseña en Google</span></figcaption></figure>
+    <figure aria-hidden="true"><div class="stars" aria-label="5 de 5 estrellas">★★★★★</div><blockquote>“Excelente grupo de profesionales e inmejorable atención, están en todos los detalles. Muy recomendables.”</blockquote><figcaption>Nicolás C. <span>· reseña en Google</span></figcaption></figure>
+    <figure aria-hidden="true"><div class="stars" aria-label="5 de 5 estrellas">★★★★★</div><blockquote>“Muy buena agencia! Súper recomendable! Todos excelentes profesionales y de muy buena calidad humana!”</blockquote><figcaption>Marina L. <span>· reseña en Google</span></figcaption></figure>
+    <figure aria-hidden="true"><div class="stars" aria-label="5 de 5 estrellas">★★★★★</div><blockquote>“Excelente. Estuvieron en cada detalle que les pedimos y siempre despejaron las dudas que teníamos.”</blockquote><figcaption>Naty M. <span>· reseña en Google</span></figcaption></figure>
+  </div>
+</section>
+
+<section class="blog" id="blog" aria-labelledby="t9">
+  <div class="wrap">
+    <div class="blog-head rv"><h2 id="t9">Lo que está cambiando en marketing, cada semana.</h2><a class="btn btn-o" href="/blog/">Ir al blog <span class="arr">→</span></a></div>
+    <div class="posts"><a class="post rv" href="/optimizando-el-exito-empresarial-2024-por-que-delegar-la-gestion-online-a-una-agencia-de-marketing-digital-es-una-jugada-estrategica/"><span class="pimg"><img src="/img/blog/delegar-marketing-en-una-agencia.jpg" alt="" width="1200" height="750" loading="lazy"></span><span class="mono">Negocios y pymes</span><h3>Delegar el marketing digital en una agencia: cuándo conviene y cuánto se gana</h3><p>Agencia, empleado propio o hacerlo uno mismo: qué conviene a una pyme en 2026, qué se delega y qué no, y cómo medir si la agencia está rindiendo.</p><time datetime="2023-12-04">4 dic 2023</time></a><a class="post rv" href="/guia-completa-como-saber-si-necesito-contratar-una-agencia-de-marketing-digital-para-mi-negocio/"><span class="pimg"><img src="/img/blog/necesito-una-agencia-de-marketing-digital.jpg" alt="" width="1200" height="750" loading="lazy"></span><span class="mono">Negocios y pymes</span><h3>¿Necesito una agencia de marketing digital? 7 señales para saberlo</h3><p>Cómo darte cuenta si tu negocio necesita una agencia de marketing digital, qué tiene que hacer una buena agencia y qué preguntarle antes de contratarla.</p><time datetime="2023-12-04">4 dic 2023</time></a><a class="post rv" href="/10-razones-por-las-que-tu-negocio-debe-estar-en-las-redes-sociales/"><span class="pimg"><img src="/img/blog/redes-sociales-para-negocios.jpg" alt="" width="1200" height="750" loading="lazy"></span><span class="mono">Redes sociales</span><h3>10 razones por las que tu negocio tiene que estar en redes sociales (en 2026)</h3><p>Por qué las redes siguen siendo clave para vender en 2026, qué cambió con la IA y los anuncios a WhatsApp, y por dónde empezar si tu negocio no tiene presencia.</p><time datetime="2022-05-27">27 may 2022</time></a></div>
+  </div>
+</section>
+
+<section class="close-scene" id="contacto" aria-labelledby="t11">
+  <div class="wrap">
+    <h2 class="big" id="t11"><span class="ln"><span>¿Hablamos</span></span><span class="ln"><span>de ventas?</span></span></h2>
+    <div class="ct">
+      <dl class="direct">
+        <div><dt>WhatsApp</dt><dd><a href="https://wa.me/5493489565444" target="_blank" rel="noopener">+54 9 3489 56-5444</a></dd></div>
+        <div><dt>Email</dt><dd>hola@somosmdl.com</dd></div>
+        <div><dt>Reunión</dt><dd><a href="https://calendly.com/mili-7/asesoramiento-digital" target="_blank" rel="noopener">Agendá una videollamada ↗</a></dd></div>
+        <div><dt>Instagram</dt><dd><a href="https://instagram.com/mdlagencia" target="_blank" rel="noopener">@mdlagencia</a></dd></div>
+      </dl>
+      <form id="form" action="/enviar.php" method="post">
+        <h3>Pedí tu diagnóstico gratis</h3>
+        <div class="row2">
+          <label for="f-nombre">Nombre<input id="f-nombre" name="nombre" autocomplete="name" required></label>
+          <label for="f-tel">WhatsApp<input id="f-tel" name="tel" type="tel" autocomplete="tel" placeholder="11 1234-5678" required></label>
+        </div>
+        <label for="f-empresa">Empresa o marca<input id="f-empresa" name="empresa" autocomplete="organization"></label>
+        <label for="f-servicio">¿Qué te interesa?
+          <select id="f-servicio" name="servicio">
+            <option>Todavía no sé, quiero asesoramiento</option>
+            <option>Anuncios en ChatGPT</option>
+            <option>Publicidad en Meta (Instagram y Facebook)</option>
+            <option>Google Ads o YouTube</option>
+            <option>Agentes de IA</option>
+            <option>Gestión de redes</option>
+            <option>Diseño web</option>
+            <option>SEO y GEO</option>
+          </select>
+        </label>
+        <label for="f-msg">Contanos qué vendés<textarea id="f-msg" name="msg" placeholder="Qué vendés, en qué zona y qué te gustaría mejorar"></textarea></label>
+        <input type="hidden" name="pagina" value="/"><input type="hidden" name="ts" id="f-ts">
+        <div class="hp" aria-hidden="true"><label>No completar<input name="web" tabindex="-1" autocomplete="off"></label></div>
+        <div class="f-actions">
+          <button class="btn btn-p" type="submit">Enviar consulta <span class="arr">→</span></button>
+          <a class="btn btn-o" id="f-wa" href="https://wa.me/5493489565444" target="_blank" rel="noopener">Prefiero WhatsApp</a>
+        </div>
+        <p class="f-fine">Te respondemos a la brevedad por WhatsApp o email.</p>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap ft">
+    <img class="logo" src="/img/mdl-logo-blanco.png" alt="MDL Marketing Digital" width="104" height="26">
+    <ul>
+      <li><a href="/chatgpt/">ChatGPT Ads</a></li>
+      <li><a href="/servicios/meta-ads/">Meta Ads</a></li>
+      <li><a href="/servicios/google-ads/">Google Ads</a></li>
+      <li><a href="/servicios/agentes-ia/">Agentes de IA</a></li>
+      <li><a href="/social-media/">Redes</a></li>
+      <li><a href="/webdesign/">Diseño web</a></li>
+      <li><a href="/servicios/seo-geo/">SEO y GEO</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="https://instagram.com/mdlagencia" target="_blank" rel="noopener">Instagram</a></li>
+      <li><a href="https://linkedin.com/company/mdlagencia" target="_blank" rel="noopener">LinkedIn</a></li>
+    </ul>
+    <span>© 2026 MDL Marketing Digital</span>
+  </div>
+</footer>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":["Organization","ProfessionalService"],"@id":"https://somosmdl.com/#org","name":"MDL Marketing Digital","alternateName":"MDL","url":"https://somosmdl.com/","logo":"https://somosmdl.com/img/mdl-logo-blanco.png","email":"hola@somosmdl.com","telephone":"+54 9 3489 56-5444","founder":{"@type":"Person","@id":"https://somosmdl.com/#matias","name":"Matías de la Llera","jobTitle":"Fundador"},"areaServed":"AR","address":{"@type":"PostalAddress","addressCountry":"AR"},"sameAs":["https://instagram.com/mdlagencia","https://linkedin.com/company/mdlagencia","https://facebook.com/MDLMarketing"],"knowsAbout":["Marketing digital","Meta Ads","Google Ads","Anuncios en ChatGPT","Agentes de IA","GEO","SEO","Gestión de redes sociales","Diseño web"],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Servicios","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Anuncios en ChatGPT","url":"https://somosmdl.com/chatgpt/"}},
+{"@type":"Offer","itemOffered":{"@type":"Service","name":"Publicidad en Meta Ads","url":"https://somosmdl.com/servicios/meta-ads/"}},
+{"@type":"Offer","itemOffered":{"@type":"Service","name":"Google Ads y YouTube","url":"https://somosmdl.com/servicios/google-ads/"}},
+{"@type":"Offer","itemOffered":{"@type":"Service","name":"Agentes de IA","url":"https://somosmdl.com/servicios/agentes-ia/"}},
+{"@type":"Offer","itemOffered":{"@type":"Service","name":"Gestión de redes sociales","url":"https://somosmdl.com/social-media/"}},
+{"@type":"Offer","itemOffered":{"@type":"Service","name":"Diseño web","url":"https://somosmdl.com/webdesign/"}},
+{"@type":"Offer","itemOffered":{"@type":"Service","name":"SEO y GEO","url":"https://somosmdl.com/servicios/seo-geo/"}}]}},
+{"@type":"WebSite","@id":"https://somosmdl.com/#web","url":"https://somosmdl.com/","name":"MDL Marketing Digital","inLanguage":"es-AR","publisher":{"@id":"https://somosmdl.com/#org"}}]}
+</script>
+
+<script>
+(function(){
+  var root=document.documentElement; root.classList.add('js');
+  var reduce=false; // el movimiento es parte de la web: no se apaga por el ajuste del sistema
+
+  // grano: textura de ruido generada en el momento
+  try{
+    var c=document.createElement('canvas');c.width=c.height=128;var x=c.getContext('2d'),d=x.createImageData(128,128);
+    for(var i=0;i<d.data.length;i+=4){var v=Math.random()*255|0;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=255}
+    x.putImageData(d,0,0);root.style.setProperty('--noise','url('+c.toDataURL()+')');
+  }catch(e){}
+
+  // el header toma fondo al bajar
+  var hdr=document.querySelector('header');
+  function hdrBg(){hdr.classList.toggle('scrolled',scrollY>40)}
+  addEventListener('scroll',hdrBg,{passive:true});hdrBg();
+
+  // menú
+  var nav=document.getElementById('nav'),ob=document.getElementById('menu-open');
+  function setNav(o){nav.classList.toggle('open',o);ob.setAttribute('aria-expanded',o)}
+  ob.addEventListener('click',function(){setNav(true)});
+  document.getElementById('menu-close').addEventListener('click',function(){setNav(false)});
+  nav.addEventListener('click',function(e){if(e.target.closest('a'))setNav(false)});
+  addEventListener('keydown',function(e){if(e.key==='Escape')setNav(false)});
+
+  // manifiesto: separar en palabras
+  var say=document.getElementById('say');
+  var hiWords={'ventas.':1,'cortamos.':1,'escalamos.':1};
+  say.innerHTML=say.textContent.trim().split(/\s+/).map(function(w){return '<span class="w'+(hiWords[w]?' hi':'')+'">'+w+'</span> '}).join('');
+  var words=[].slice.call(say.querySelectorAll('.w'));
+
+  // reveals por desplazamiento (el contenido ya es visible; solo se mueve)
+  var rvs=[].slice.call(document.querySelectorAll('.rv'));
+  if('IntersectionObserver' in window&&!reduce){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+    rvs.forEach(function(el){io.observe(el)});
+  }else rvs.forEach(function(el){el.classList.add('in')});
+
+  // showreel: loop mudo, arranca solo al entrar en pantalla (vertical en celular)
+  var rv=document.getElementById('reel-v'),reelSec=document.getElementById('reel'),rcap=document.getElementById('reel-cap');
+  (function(){
+    var sm=matchMedia('(max-width:860px)').matches,loaded=false;
+    if(sm)rv.poster=rv.dataset.posterSm;
+    if(reduce)return; // con movimiento reducido queda solo el póster
+    function load(){if(loaded)return;loaded=true;rv.src=sm?rv.dataset.srcSm:rv.dataset.src}
+    if(!('IntersectionObserver' in window)){load();rv.play();return}
+    new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting){load();var pr=rv.play();if(pr&&pr.catch)pr.catch(function(){})}
+      else if(!rv.paused)rv.pause();
+    })},{rootMargin:'200px 0px',threshold:0}).observe(rv);
+  })();
+
+  if(reduce){words.forEach(function(w){w.classList.add('on')});return}
+
+  var nums=document.getElementById('numeros'),frames=[].slice.call(nums.querySelectorAll('.frame')),bars=[].slice.call(nums.querySelectorAll('.progress i'));
+  var svc=document.getElementById('servicios'),track=document.getElementById('track');
+  var fmt=function(n){return n.toLocaleString('es-AR')};
+  function sizeSvc(){var extra=Math.max(0,track.scrollWidth-innerWidth);svc.style.setProperty('--h',(innerHeight+extra*1.6)+'px');svc._extra=extra}
+  function prog(el){var r=el.getBoundingClientRect(),span=r.height-innerHeight;return span>0?Math.min(1,Math.max(0,-r.top/span)):0}
+  function ease(t){return 1-Math.pow(1-t,3)}
+  function tick(){
+    // showreel: de ventana a pantalla completa
+    var g=Math.min(1,prog(reelSec)/.55);reelSec.style.setProperty('--g',ease(g).toFixed(3));rcap.classList.toggle('on',g>.6);
+    // números: tres cuadros que se funden
+    var p=prog(nums),seg=1/3;
+    frames.forEach(function(f,i){
+      var local=(p-i*seg)/seg, o;
+      var fin=local<0?Math.max(0,1+local*10):1, fout=local<.72?1:Math.max(0,1-(local-.72)*7);
+      o=i===0?fout:(i===frames.length-1?fin:Math.min(fin,fout));
+      f.style.setProperty('--o',o.toFixed(3));
+      var s=f.querySelector('[data-to]'),to=+s.dataset.to,t=Math.min(1,Math.max(0,(local+.25)/.6));
+      if(i===0&&p===0) t=1;
+      s.textContent=fmt(Math.round(to*ease(t)));
+      bars[i].style.setProperty('--f',Math.min(1,Math.max(0,local)).toFixed(3));
+    });
+    // manifiesto: las palabras se encienden
+    var r=say.getBoundingClientRect(),k=Math.min(1,Math.max(0,(innerHeight*.85-r.top)/(r.height+innerHeight*.35)));
+    var on=Math.round(k*words.length);
+    words.forEach(function(w,i){w.classList.toggle('on',i<on)});
+    // travelling de servicios
+    var sp=prog(svc);track.style.setProperty('--tx',(sp*(svc._extra||0)).toFixed(1));
+  }
+  var queued=false;
+  function req(){if(!queued){queued=true;requestAnimationFrame(function(){queued=false;tick()})}}
+  sizeSvc();tick();
+  addEventListener('scroll',req,{passive:true});
+  addEventListener('resize',function(){sizeSvc();req()});
+  addEventListener('load',function(){sizeSvc();req()});
+})();
+
+// formulario: se envía por email (enviar.php); "Prefiero WhatsApp" abre el chat con la consulta armada
+(function(){
+  var f=document.getElementById('form'),g=function(id){return document.getElementById(id).value.trim()};
+  document.getElementById('f-ts').value=Date.now();
+  function txt(){return 'Hola MDL, soy '+g('f-nombre')+(g('f-empresa')?' de '+g('f-empresa'):'')+'. Me interesa: '+g('f-servicio')+'. '+g('f-msg')}
+  f.addEventListener('submit',function(e){
+    if(!g('f-nombre')){e.preventDefault();document.getElementById('f-nombre').focus();return}
+    if(!g('f-tel')){e.preventDefault();document.getElementById('f-tel').focus();return}
+  });
+  document.getElementById('f-wa').addEventListener('click',function(){this.href='https://wa.me/5493489565444?text='+encodeURIComponent(txt())});
+})();
+</script>
+<script>(function(){var t=document.getElementById('phones'),d=document.querySelectorAll('#dots-ph i');if(!t)return;t.addEventListener('scroll',function(){var w=t.firstElementChild.offsetWidth+16,i=Math.round(t.scrollLeft/w);for(var k=0;k<d.length;k++)d[k].classList.toggle('on',k===i)},{passive:true})})();</script>
+<script>(function(){var d=document.documentElement,bs=document.querySelectorAll('.theme-btn');
+function lab(){var l=d.getAttribute('data-theme')==='light';for(var i=0;i<bs.length;i++){bs[i].setAttribute('aria-pressed',l?'true':'false');bs[i].querySelector('span').textContent=l?'Modo oscuro':'Modo claro'}}
+for(var i=0;i<bs.length;i++)bs[i].addEventListener('click',function(){var n=d.getAttribute('data-theme')==='light'?'dark':'light';d.setAttribute('data-theme',n);try{localStorage.setItem('mdl-tema',n)}catch(e){}lab()});lab()})();</script>
+</body>
+</html>

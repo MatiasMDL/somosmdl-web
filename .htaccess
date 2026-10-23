@@ -1,0 +1,105 @@
+# somosmdl.com · sitio estático (Apache / LiteSpeed, hosting con cPanel)
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+ErrorDocument 410 /404.html
+AddDefaultCharset utf-8
+AddType video/mp4 .mp4
+AddType font/woff2 .woff2
+AddType application/rss+xml .xml
+AddType text/plain .txt
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Dirección única: https y sin www
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} ^www\. [NC]
+RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L,NE]
+
+# Archivos viejos de WordPress (imágenes, PDFs): se sirven tal cual. Va por REQUEST_URI
+# porque wp-content/uploads/.htaccess hereda estas reglas (RewriteOptions Inherit).
+RewriteCond %{REQUEST_URI} ^/wp-content/uploads/
+RewriteRule ^ - [L]
+
+# Reportes de clientes del sitio anterior: no se migran, llevan a los casos.
+RewriteRule ^reporte- /casos/ [R=301,L]
+
+# Redirecciones 301 desde las URLs del sitio WordPress anterior
+RewriteRule ^work/?$ /casos/ [R=301,L]
+RewriteRule ^team/?$ /#manifiesto [R=301,L,NE]
+RewriteRule ^nena-peluqueria/?$ /casos/ [R=301,L]
+RewriteRule ^trabaja-con-nosotros/?$ /#contacto [R=301,L,NE]
+RewriteRule ^planes(-marketing-digital|-redes-sociales-usd|-para-gestion-de-redes-sociales-y-campanas-publicitarias)?/?$ /#contacto [R=301,L,NE]
+RewriteRule ^home/?$ / [R=301,L]
+RewriteRule ^index\.php$ / [R=301,L]
+RewriteRule ^feed/?$ /blog/feed.xml [R=301,L]
+RewriteRule ^(category|tag|author)/ /blog/ [R=301,L]
+RewriteRule ^(wp-admin/.*|wp-login\.php)$ / [R=301,L]
+RewriteRule ^(sitemap_index|page-sitemap|post-sitemap)\.xml$ /sitemap.xml [R=301,L]
+RewriteRule ^instagram-sera-el-nuevo-tiktok /guia-basica-todo-lo-que-tenes-que-saber-sobre-instagram/ [R=301,L]
+RewriteRule ^blog/necesito-una-agencia-de-marketing-digital/?$ /guia-completa-como-saber-si-necesito-contratar-una-agencia-de-marketing-digital-para-mi-negocio/ [R=301,L]
+RewriteRule ^servicios/foto-video/?$ /social-media/ [R=301,L]
+
+# Adjuntos de WordPress (?attachment_id=, /algo/attachment/...) -> blog
+RewriteCond %{QUERY_STRING} (^|&)(attachment_id|p|page_id)=[0-9]+ [NC]
+RewriteRule ^ /blog/? [R=301,L]
+RewriteRule ^(.+/)?attachment/ /blog/ [R=301,L]
+
+# MAPA-URLS-VIEJAS (lo completa la migración con cada URL indexada que no exista en la web nueva)
+# Sitemaps viejos de Yoast que no cubre la regla de arriba
+RewriteRule ^[a-z0-9_-]+-sitemap[0-9]*\.xml$ /sitemap.xml [R=301,L]
+RewriteRule ^main-sitemap\.xsl$ /sitemap.xml [R=301,L]
+# Planes que no cubre la regla de arriba
+RewriteRule ^planes[a-z0-9-]*/?$ /#contacto [R=301,L,NE]
+# Contacto, nosotros, servicios
+RewriteRule ^contacto/?$ /#contacto [R=301,L,NE]
+RewriteRule ^gracias/?$ /gracias-por-escribirnos/ [R=301,L]
+RewriteRule ^servicios/?$ /#servicios [R=301,L,NE]
+RewriteRule ^project/?$ /casos/ [R=301,L]
+RewriteRule ^politica-de-privacidad/?$ /politicas-de-privacidad/ [R=301,L]
+# Posts viejos con fecha en la URL
+RewriteRule ^20[0-9]{2}/[0-9]{2}/[0-9]{2}/10-razones-por-las-que-tu-negocio-debe-estar-en-las-redes-sociales/?$ /10-razones-por-las-que-tu-negocio-debe-estar-en-las-redes-sociales/ [R=301,L]
+RewriteRule ^20[0-9]{2}/[0-9]{2}/[0-9]{2}/(guia-basica-todo-lo-que-tenes-que-saber-sobre-instagram|instagram-sera-el-nuevo-tiktok) /guia-basica-todo-lo-que-tenes-que-saber-sobre-instagram/ [R=301,L]
+RewriteRule ^20[0-9]{2}/ /blog/ [R=301,L]
+# Posts viejos no migrados -> nota o landing más parecida
+RewriteRule ^(guia-basica-sobre-instagram|instagram-en-ingles-como-solucionarlo)/?$ /guia-basica-todo-lo-que-tenes-que-saber-sobre-instagram/ [R=301,L]
+RewriteRule ^(10-razones-por-las-que-tu-negocio-debe-tener-un-sitio-web|4-aspectos-importantes-para-que-tu-pagina-web-genere-ventas|diseno-web-en-argentina|por-que-tu-negocio-debe-tener-un-sitio-web-para-triunfar)/?$ /webdesign/ [R=301,L]
+RewriteRule ^(beneficios-de-contratar-una-agencia-google-partner|publicidad-en-google|publicidad-en-google-adwords)/?$ /servicios/google-ads/ [R=301,L]
+RewriteRule ^como-detectar-oportunidades-de-negocio-4-tips/?$ /blog/ [R=301,L]
+RewriteRule ^webdesign/[0-9]+/?$ /webdesign/ [R=301,L]
+# Páginas de prueba / tienda del sitio viejo -> home
+RewriteRule ^(carrito|producto|no-se-vende|pagina-de-prueba|pruebas|sample-page|traduccion|web-hotel|minegocio|landing)(/.*)?$ / [R=301,L]
+
+# Carpeta sin barra final -> con barra (una sola URL por página)
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^(.+[^/])$ /$1/ [R=301,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+Header always set X-Content-Type-Options "nosniff"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+<FilesMatch "\.(woff2|mp4|jpg|png|ico)$">
+Header set Cache-Control "public, max-age=2592000"
+</FilesMatch>
+<FilesMatch "\.css$">
+Header set Cache-Control "public, max-age=86400"
+</FilesMatch>
+<FilesMatch "\.html$">
+Header set Cache-Control "public, max-age=0, must-revalidate"
+</FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/xml application/rss+xml application/javascript image/svg+xml
+</IfModule>
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the "ea-php74" package as the default "PHP" programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php74 .php .php7 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
