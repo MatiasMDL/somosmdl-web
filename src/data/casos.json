@@ -1,0 +1,93 @@
+[
+ {
+  "slug": "reyes-del-colchon",
+  "name": "Reyes del Colchón",
+  "metric": "+40%",
+  "label": "ventas con agente de IA",
+  "services": "Agente de IA · CRM · Meta Ads",
+  "shape": "tall",
+  "tone": "purple",
+  "chat": [
+   "¿El Boreal de 2 plazas tiene envío?",
+   "Quiero probar el colchón, ¿dónde están?",
+   "¿Tienen cuotas sin interés?",
+   "¿La almohada Galaxy viene en pluma?",
+   "Me pasás el precio del Perseus?"
+  ]
+ },
+ {
+  "slug": "cima-integral",
+  "name": "Cima Integral",
+  "metric": "1.532",
+  "label": "conversaciones en 3 meses",
+  "services": "Meta Ads · Redes",
+  "shape": "wide",
+  "tone": "dark",
+  "chat": [
+   "¿Atienden en Escobar?",
+   "Quería info para cambiarme a Cima",
+   "Somos 4 en el grupo familiar",
+   "¿Qué planes tienen en Campana?"
+  ]
+ },
+ {
+  "slug": "productos-valido",
+  "name": "Productos Válido",
+  "metric": "×2,8",
+  "label": "vistas por reel desde que tomamos el contenido",
+  "services": "Redes · Contenido",
+  "shape": "tall",
+  "tone": "dark",
+  "chat": [
+   "Vimos el video de la fábrica, qué lindo",
+   "¿Dónde consigo los alfajores?",
+   "¿Venden por mayor?",
+   "Qué buena la historia de la familia"
+  ]
+ },
+ {
+  "slug": "sin-foto-multa",
+  "name": "Sin Foto Multa",
+  "metric": "4.235",
+  "label": "conversaciones jun–oct",
+  "services": "Meta Ads · Redes",
+  "shape": "wide",
+  "tone": "light",
+  "chat": [
+   "Me llegó una fotomulta, ¿la pueden bajar?",
+   "¿Cuánto sale el trámite?",
+   "Tengo 3 multas de Provincia",
+   "¿Sirve si es de otra provincia?"
+  ]
+ },
+ {
+  "slug": "supermix",
+  "name": "Supermix",
+  "metric": "399",
+  "label": "conversaciones en 2 meses + web nueva",
+  "services": "Diseño web · Meta Ads · Redes",
+  "shape": "banner",
+  "tone": "dark",
+  "chat": [
+   "Necesito 8 m³ para el jueves",
+   "¿Tienen bomba para losa?",
+   "Pasame precio del H21 puesto en obra",
+   "¿Llegan a Zárate?"
+  ]
+ },
+ {
+  "slug": "ifranet",
+  "name": "Ifranet",
+  "metric": "−65%",
+  "label": "costo por consulta vs 2024",
+  "services": "Meta Ads · Redes",
+  "shape": "square",
+  "tone": "purple",
+  "chat": [
+   "¿Llega la fibra a mi barrio?",
+   "¿Cuánto sale el plan de 300 megas?",
+   "Quiero cambiarme de proveedor",
+   "¿La instalación es gratis?"
+  ]
+ }
+]

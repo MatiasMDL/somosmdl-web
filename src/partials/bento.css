@@ -1,0 +1,32 @@
+/* bento de casos: cada tile es un video corto en loop (o, mientras no hay video, el chat del cliente en movimiento lento) */
+.bento{display:grid;grid-auto-flow:dense;grid-template-columns:1fr 1.2fr 1fr;grid-auto-rows:clamp(190px,21vw,290px);gap:clamp(10px,1.2vw,16px)}
+.tile{position:relative;overflow:hidden;border-radius:22px;text-decoration:none;color:var(--fg);background:var(--bg2);isolation:isolate;min-width:0}
+.tile.tall{grid-row:span 2}
+.tile.banner{grid-column:span 2}
+.tile.purple{background:var(--p)}
+.tile.light{background:var(--fg);color:var(--bg)}
+.tile.dark{box-shadow:inset 0 0 0 1px var(--line)}
+.tile video,.tile .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-1;transform:scale(1.04);transition:transform 2.4s cubic-bezier(.16,1,.3,1)}
+.tile:hover video,.tile:hover .poster{transform:scale(1)}
+.tile.has-media::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(11,6,18,.85),rgba(11,6,18,0) 55%)}
+.tile.has-media{color:#F4F1F8}
+.tile .flow{position:absolute;inset:0 0 clamp(120px,42%,200px) 0;z-index:-1;overflow:hidden;padding:18px;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 22%,#000 70%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 22%,#000 70%,transparent)}
+.tile .flow div{display:flex;flex-direction:column;gap:10px;animation:tflow 40s linear infinite}
+.tile:nth-child(2n) .flow div{animation-duration:52s}
+.tile .flow span{align-self:flex-start;max-width:85%;font-size:13px;line-height:1.35;padding:9px 13px;border-radius:14px 14px 14px 4px;background:rgba(244,241,248,.08);border:1px solid rgba(244,241,248,.1);color:inherit;opacity:.75}
+.tile.light .flow span{background:rgba(11,6,18,.06);border-color:rgba(11,6,18,.1)}
+.tile .flow span:nth-child(3n){align-self:flex-end;border-radius:14px 14px 4px 14px}
+@keyframes tflow{to{transform:translateY(-50%)}}
+.tile .cap{position:absolute;left:0;right:0;bottom:0;padding:clamp(16px,1.8vw,24px);display:flex;flex-direction:column;gap:4px}
+.tile .cap .m{font-family:var(--display);font-weight:900;font-size:clamp(34px,4vw,60px);line-height:.9;letter-spacing:-.05em}
+.tile.purple .cap .m,.tile.dark .cap .m{color:var(--lav)}
+.tile.has-media .cap .m{color:#fff}
+.tile .cap .l{font-size:14px;font-weight:500;line-height:1.3}
+.tile .cap .n{display:flex;justify-content:space-between;gap:10px;margin-top:10px;font:400 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;opacity:.75}
+.tile .cap .n b{font-weight:400;opacity:1}
+.tile .go{position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(244,241,248,.12);font-size:16px;transform:scale(.85);opacity:.0;transition:all .8s cubic-bezier(.16,1,.3,1)}
+.tile:hover .go,.tile:focus-visible .go{opacity:1;transform:none}
+.tile.light .go{background:rgba(11,6,18,.08)}
+@media (max-width:860px){.bento{grid-template-columns:1fr 1fr;grid-auto-rows:clamp(170px,44vw,260px)}.tile.banner{grid-column:span 2}}
+@media (max-width:520px){.bento{grid-template-columns:1fr;grid-auto-rows:auto}.tile,.tile.tall,.tile.banner{grid-column:auto;grid-row:auto;aspect-ratio:4/5}.tile.wide,.tile.square{aspect-ratio:1/1}.tile.banner{aspect-ratio:4/3}}
+@media (prefers-reduced-motion:reduce){.tile .flow div{animation:none}}

@@ -1,0 +1,35 @@
+# Arma el sitio y deja el resultado (dist/) en la rama "publicado".
+# El servidor de MDL la baja cada 30 minutos con servidor/sincronizar.sh (cron) y copia solo los archivos que cambiaron.
+# Corre en cada push a main (por ejemplo, una nota nueva del blog automático) y todos los días a las 9:10 (Argentina)
+# para publicar notas programadas con fecha futura.
+name: Armar sitio
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "10 12 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: armar-sitio
+  cancel-in-progress: false
+jobs:
+  armar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt && TZ=America/Argentina/Buenos_Aires python3 build.py
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: publicado
+          publish_dir: ./dist
+          keep_files: false
+          enable_jekyll: true
+          user_name: "MDL web"
+          user_email: "hola@somosmdl.com"
+          commit_message: "sitio armado"
