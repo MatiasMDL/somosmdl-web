@@ -1,6 +1,6 @@
 # Blog automático de somosmdl.com
 
-Rutina de Claude programada **lunes, miércoles y viernes a las 9:00 (hora Argentina)** sobre el repositorio del sitio. Cada ejecución publica una nota nueva haciendo commit en `main`. GitHub Actions arma el sitio en la rama `publicado` (`.github/workflows/subir-al-servidor.yml`) y el servidor de MDL la baja cada 30 minutos con `servidor/sincronizar.sh` (cron), copiando solo los archivos que cambiaron. No hay contraseñas guardadas: el servidor lee el repo con una clave de despliegue de solo lectura.
+Rutina de Claude programada **lunes, miércoles y viernes a las 9:00 (hora Argentina)** sobre el repositorio del sitio. Cada ejecución publica una nota nueva haciendo commit en `main`. GitHub Actions arma el sitio en la rama `publicado` (`.github/workflows/subir-al-servidor.yml`) y avisa al servidor de MDL, que baja con `servidor/sincronizar-blog.php` solo los archivos que cambiaron. No hay contraseñas guardadas: el repo es público y su contenido es el mismo de la web.
 
 ## Instrucciones de la rutina (prompt)
 

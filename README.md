@@ -14,7 +14,7 @@ Sitio de MDL Marketing Digital en HTML estático, publicado en el servidor de MD
 
 - Armar: `pip install -r requirements.txt && python3 build.py` genera `dist/`.
 - A mano: subir el contenido de `dist/` (incluido `.htaccess`) a `public_html`. Paso a paso en `../entrega/COMO-SUBIR-LA-WEB.md`.
-- Automático: cada push a `main` arma el sitio en la rama `publicado` (`.github/workflows/subir-al-servidor.yml`); el servidor la baja cada 30 min con `servidor/sincronizar.sh` y copia solo lo que cambió (nunca borra ni toca `.htaccess`, `enviar.php`, `wp-content/`, `video/`).
+- Automático: cada push a `main` arma el sitio en la rama `publicado` (`.github/workflows/subir-al-servidor.yml`); y llama a `https://somosmdl.com/sincronizar-blog.php` (copia en `servidor/`), que baja solo lo que cambió (nunca borra ni toca `.htaccess`, `enviar.php`, `wp-content/`, `video/`).
 
 ## Blog automático
 

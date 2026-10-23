@@ -1,5 +1,5 @@
 # Arma el sitio y deja el resultado (dist/) en la rama "publicado".
-# El servidor de MDL la baja cada 30 minutos con servidor/sincronizar.sh (cron) y copia solo los archivos que cambiaron.
+# Después avisa al servidor de MDL, que baja solo los archivos que cambiaron (servidor/sincronizar-blog.php).
 # Corre en cada push a main (por ejemplo, una nota nueva del blog automático) y todos los días a las 9:10 (Argentina)
 # para publicar notas programadas con fecha futura.
 name: Armar sitio
@@ -33,3 +33,11 @@ jobs:
           user_name: "MDL web"
           user_email: "hola@somosmdl.com"
           commit_message: "sitio armado"
+      # Avisa al servidor de MDL: baja de "publicado" solo los archivos que cambiaron (servidor/sincronizar-blog.php).
+      - name: Avisar al servidor
+        run: |
+          for i in 1 2 3; do
+            curl -fsS --max-time 120 https://somosmdl.com/sincronizar-blog.php && exit 0
+            sleep 30
+          done
+          exit 1
