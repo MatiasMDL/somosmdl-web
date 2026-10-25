@@ -44,11 +44,7 @@ if (empty($info['sha'])) { http_response_code(502); anotar('error: no pude leer 
 $nuevo = $info['sha'];
 $viejo = is_file($ESTADO) ? trim(file_get_contents($ESTADO)) : '';
 
-if ($viejo === '') {                            // primera vez: la web en vivo ya es esta versión
-    file_put_contents($ESTADO, $nuevo);
-    anotar('punto de partida ' . substr($nuevo, 0, 7));
-    exit;
-}
+if ($viejo === '') $viejo = '8b4566e77dd4a90788ab3663875deb55e4ec052d';  // versión que estaba en vivo el 23/10 00:55
 if ($viejo === $nuevo) { echo "al día\n"; exit; }
 
 $cmp = json_decode((string) traer("https://api.github.com/repos/$REPO/compare/$viejo...$nuevo"), true);
