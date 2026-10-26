@@ -10,6 +10,9 @@ Encabezado de la nota (todo opcional salvo lo que pide build.py):
     frase: "Tus anuncios ahora en ChatGPT"     # 3 a 7 palabras, va grande en la portada
     escena: "¿Qué agencia me recomendás?"       # texto dentro del dibujo (chat, buscador, anuncio...)
     dato: "+40%"                                 # opcional: número protagonista
+    motivo: chat                                 # opcional: chat, anuncio, reel, buscador o barras (si no, el de la categoría)
+    app: "WhatsApp"                              # opcional: nombre arriba del chat
+    # barras solo si la nota trae datos reales que crecen; si no, usá otro motivo
     dato_texto: "más ventas"
   figuras:
     - tipo: barras        (titulo, datos: [[etiqueta, número], ...], unidad, fuente)
@@ -55,25 +58,26 @@ def leer(slug):
 def motivo(t, meta, p):
     """El dibujo de la derecha. Usa la 'escena' de la nota para que cada portada sea distinta."""
     escena = esc(p.get("escena") or meta["title"])
-    if t["motivo"] == "chat":
+    m = p.get("motivo") or t["motivo"]
+    if m == "chat":
         return f'''<div class="phone"><div class="scr" style="background:#F4F1F8">
-<div class="top">Asistente</div>
+<div class="top">{esc(p.get("app", "Asistente"))}</div>
 <div class="b me">{escena}</div>
 <div class="b bot"><i></i><i></i><i style="width:60%"></i></div>
 <div class="b bot"><i></i><i style="width:75%"></i></div>
 <div class="inp">Escribí un mensaje</div></div></div>'''
-    if t["motivo"] == "anuncio":
+    if m == "anuncio":
         return f'''<div class="phone"><div class="scr" style="background:#fff">
 <div class="ig"><span class="av"></span><b>Tu marca</b><small>Publicidad</small></div>
 <div class="media"><span>{escena}</span></div>
 <div class="ctaw">Enviar mensaje <b>›</b></div>
 <div class="lines"><i></i><i style="width:70%"></i></div></div></div>'''
-    if t["motivo"] == "reel":
+    if m == "reel":
         return f'''<div class="phone"><div class="scr reel">
 <div class="rtext">{escena}</div>
 <div class="side"><span>♥<small>12,4 mil</small></span><span>●<small>318</small></span><span>➤<small>1.204</small></span></div>
 <div class="prog"><i></i></div></div></div>'''
-    if t["motivo"] == "buscador":
+    if m == "buscador":
         return f'''<div class="browser"><div class="bbar"><i></i><i></i><i></i></div>
 <div class="q">{escena}</div>
 <div class="res hi"><small>somosmdl.com</small><b>Tu negocio, primero</b><i></i></div>
