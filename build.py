@@ -194,9 +194,29 @@ def build_casos():
                           head_extra="<style>" + (SRC / "partials" / "bento.css").read_text(encoding="utf-8") + ".bento{margin-bottom:12px}.bento-note{color:var(--muted);font-size:13px;margin:0 0 56px}</style>"))
 
 
+EXTRA_PAGES = [
+    ("/nosotros/", "nosotros.html", "Nosotros | MDL, agencia de marketing digital",
+     "MDL es una agencia de marketing digital argentina con más de 10 años, fundada por Matías de la Llera. Qué hacemos, cómo trabajamos y resultados reales.",
+     "Nosotros", "AboutPage"),
+    ("/agencia-de-marketing-digital-zona-norte/", "zona-norte.html", "Agencia de marketing digital en Zona Norte | MDL",
+     "Agencia de marketing digital para empresas de Campana, Zárate, Escobar y Pilar: Meta Ads, Google Ads, redes y web. Casos reales de la zona.",
+     "Zona Norte", "WebPage"),
+]
+
+
+def build_extra():
+    for path, src, title, desc, label, typ in EXTRA_PAGES:
+        body = (SRC / "pages" / src).read_text(encoding="utf-8")
+        node = {"@type": typ, "@id": f"{SITE}{path}#page", "name": title, "url": f"{SITE}{path}", "inLanguage": "es-AR", "about": ORG}
+        if path.startswith("/agencia-de-marketing-digital-zona-norte"):
+            node["about"] = {"@type": "ProfessionalService", "@id": f"{SITE}/#org", "name": "MDL Marketing Digital",
+                             "areaServed": [{"@type": "City", "name": c} for c in ("Campana", "Zárate", "Escobar", "Pilar")]}
+        write(path, page(title, desc, path, body, {"@context": "https://schema.org", "@graph": [node, crumbs(("Inicio", "/"), (label, path))]}))
+
+
 def build_meta(posts):
     urls = [("/", TODAY, "1.0")] + [(u, TODAY, "0.9") for u, _, _ in SERVICES] + \
-           [("/casos/", TODAY, "0.9"), ("/blog/", posts[0]["updated"] if posts else TODAY, "0.8"), ("/politicas-de-privacidad/", TODAY, "0.2")] + \
+           [("/casos/", TODAY, "0.9")] + [(x[0], TODAY, "0.8") for x in EXTRA_PAGES] + [ ("/blog/", posts[0]["updated"] if posts else TODAY, "0.8"), ("/politicas-de-privacidad/", TODAY, "0.2")] + \
            [(p["url"], p["updated"], "0.7") for p in posts]
     write("/sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
           "".join(f"<url><loc>{SITE}{u}</loc><lastmod>{d.isoformat()}</lastmod><priority>{pr}</priority></url>\n" for u, d, pr in urls) + "</urlset>\n")
@@ -247,6 +267,7 @@ def main():
     blog.build_blog(posts)
     build_simple()
     build_casos()
+    build_extra()
     build_meta(posts)
     print(f"OK: {len(posts)} notas, {sum(1 for _ in DIST.rglob('*.html'))} páginas en dist/")
 
